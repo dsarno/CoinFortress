@@ -14,22 +14,37 @@ public class Projectile : MonoBehaviour
         speed = spd;
         damage = dmg;
         
-        // Physics-based movement
+        // Physics-based movement with gravity arc
         rb = GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            rb.isKinematic = false;
-            rb.gravityScale = 0f;
+            // Optimize physics settings to prevent jittering
+            rb.bodyType = RigidbodyType2D.Dynamic;
+            
+            // CRITICAL: Enable interpolation for smooth movement between physics steps
+            // This prevents jittering when physics timestep doesn't match render framerate
+            rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+            
+            // Use Continuous collision detection for fast-moving projectiles
+            // Prevents tunneling through colliders at high speeds
+            rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+            
+            // Prevent the projectile from going to sleep (which can cause jitter)
+            rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
+            
+            // Set drag to 0 for projectiles (they should maintain velocity)
+            rb.linearDamping = 0f;
+            rb.angularDamping = 0f;
+            
+            // Set velocity after all settings are configured
             rb.linearVelocity = direction * speed;
+            
+            // Wake up the rigidbody to ensure it's active
+            rb.WakeUp();
         }
         
         // Auto-destroy after lifetime
         Destroy(gameObject, lifetime);
-    }
-    
-    private void Update()
-    {
-        // Movement handled by Rigidbody2D
     }
     
     private void OnCollisionEnter2D(Collision2D collision)
