@@ -7,7 +7,10 @@ public enum BlockType
     Iron,
     Gold,
     Core,
-    Turret
+    Turret,
+    Window,
+    Roof,
+    TreasureChest
 }
 
 public class FortressBlock : MonoBehaviour

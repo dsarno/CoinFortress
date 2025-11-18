@@ -11,6 +11,9 @@ public class FortressSpawner : MonoBehaviour
     public GameObject goldPrefab;
     public GameObject corePrefab;
     public GameObject turretPrefab;
+    public GameObject windowPrefab;
+    public GameObject roofPrefab;
+    public GameObject treasureChestPrefab;
     
     [Header("Settings")]
     public float cellSize = 1f;
@@ -125,6 +128,9 @@ public class FortressSpawner : MonoBehaviour
             case BlockType.Gold: return goldPrefab;
             case BlockType.Core: return corePrefab;
             case BlockType.Turret: return turretPrefab;
+            case BlockType.Window: return windowPrefab;
+            case BlockType.Roof: return roofPrefab;
+            case BlockType.TreasureChest: return treasureChestPrefab;
             default: return null;
         }
     }
