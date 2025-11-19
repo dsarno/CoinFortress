@@ -47,6 +47,7 @@ ExportedObj/
 
 # Unity3D generated file on crash reports
 sysinfo.txt
+mono_crash.*
 
 # Builds
 *.apk
@@ -68,6 +69,10 @@ crashlytics-build.properties
 [Pp]ackages/Coplay/Editor/CoplayLogs/
 [Pp]ackages/Coplay/Editor/Checkpoints/
 [Tt]emp/Coplay/
+
+# Unity recovery files
+[Aa]ssets/_Recovery/
+[Aa]ssets/_Recovery.meta
 
 # OS generated files
 .DS_Store
