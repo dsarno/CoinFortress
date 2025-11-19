@@ -9,6 +9,7 @@ public class LevelManager : MonoBehaviour
     public PlayerStats playerStats;
     public FortressSpawner fortressSpawner;
     public StoreManager storeManager;
+    public GameObject mainMenuPanel;
     
     [Header("Level Settings")]
     public int currentLevel = 1;
@@ -35,8 +36,22 @@ public class LevelManager : MonoBehaviour
     
     private void Start()
     {
-        // Start with the store open
-        StartLevel();
+        // MainMenuController handles showing the menu on start
+    }
+    
+    public void ShowMainMenu()
+    {
+        if (mainMenuPanel != null)
+        {
+            mainMenuPanel.SetActive(true);
+        }
+        
+        if (storeManager != null)
+        {
+            storeManager.CloseStore();
+        }
+        
+        levelInProgress = false;
     }
     
     public void StartLevel()
@@ -53,6 +68,17 @@ public class LevelManager : MonoBehaviour
     {
         // Start the level with a small delay to allow button click sound to play
         StartCoroutine(BeginLevelCoroutine());
+    }
+    
+    public void StartFirstLevel()
+    {
+        // Called from main menu "Start Game" button
+        if (mainMenuPanel != null)
+        {
+            mainMenuPanel.SetActive(false);
+        }
+        
+        BeginLevel();
     }
     
     private System.Collections.IEnumerator BeginLevelCoroutine()
