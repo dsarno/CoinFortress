@@ -10,6 +10,9 @@ public class CrackEffectManager : MonoBehaviour
     [Header("Crack Sprites Database")]
     public CrackSpritesDatabase spritesDatabase;
     
+    [Header("Crack Material")]
+    public Material crackMaterial;
+    
     private void Awake()
     {
         if (Instance == null)
@@ -26,5 +29,10 @@ public class CrackEffectManager : MonoBehaviour
     public CrackSpritesDatabase GetDatabase()
     {
         return spritesDatabase;
+    }
+    
+    public Material GetCrackMaterial()
+    {
+        return crackMaterial;
     }
 }

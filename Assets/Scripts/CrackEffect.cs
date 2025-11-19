@@ -13,6 +13,12 @@ public class CrackEffect : MonoBehaviour
     
     private SpriteRenderer crackRenderer;
     private Transform blockTransform;
+    private MaterialPropertyBlock mpb;
+    private static readonly int DamageProgressID = Shader.PropertyToID("_DamageProgress");
+    private static readonly int TimeSinceCrackID = Shader.PropertyToID("_TimeSinceCrack");
+    
+    private float timeSinceCrackAppeared = 0f;
+    private bool crackIsActive = false;
     
     private void Awake()
     {
@@ -29,11 +35,30 @@ public class CrackEffect : MonoBehaviour
         crackRenderer.sortingOrder = 1; // Above the block sprite
         crackRenderer.color = Color.white;
         
+        // Assign crack material
+        AssignCrackMaterial();
+        
+        // Initialize MaterialPropertyBlock
+        mpb = new MaterialPropertyBlock();
+        
         // Scale crack to fit the block sprite
         ScaleCrackToBlock();
         
         // Start hidden
         crackRenderer.enabled = false;
+    }
+    
+    private void AssignCrackMaterial()
+    {
+        // Get material from manager if available
+        if (CrackEffectManager.Instance != null)
+        {
+            Material crackMat = CrackEffectManager.Instance.GetCrackMaterial();
+            if (crackMat != null)
+            {
+                crackRenderer.material = crackMat;
+            }
+        }
     }
     
     private void ScaleCrackToBlock()
@@ -101,20 +126,54 @@ public class CrackEffect : MonoBehaviour
         }
     }
     
+    private void Update()
+    {
+        // Update time since crack appeared for emission fade-in
+        if (crackIsActive && crackRenderer != null && crackRenderer.enabled)
+        {
+            timeSinceCrackAppeared += Time.deltaTime;
+            
+            // Update shader with elapsed time
+            if (mpb == null) mpb = new MaterialPropertyBlock();
+            crackRenderer.GetPropertyBlock(mpb);
+            mpb.SetFloat(TimeSinceCrackID, timeSinceCrackAppeared);
+            crackRenderer.SetPropertyBlock(mpb);
+        }
+    }
+    
     public void UpdateCrackProgress(float damagePercent)
     {
-        // This will be used in step 2 with the shader
-        // For now, just show/hide based on any damage
+        // Ensure crack renderer exists (in case this is called before Awake)
+        if (crackRenderer == null)
+        {
+            Debug.LogWarning($"CrackEffect on {transform.parent?.name ?? gameObject.name}: crackRenderer not initialized. Call Awake first or wait for Start.");
+            return;
+        }
+        
+        // Show crack if any damage
         if (damagePercent > 0)
         {
-            if (!crackRenderer.enabled)
+            bool wasEnabled = crackRenderer.enabled;
+            
+            if (!wasEnabled)
             {
                 ShowCrack();
+                // Reset time on new crack appearance
+                timeSinceCrackAppeared = 0f;
+                crackIsActive = true;
             }
+            
+            // Update shader progress via MaterialPropertyBlock
+            if (mpb == null) mpb = new MaterialPropertyBlock();
+            crackRenderer.GetPropertyBlock(mpb);
+            mpb.SetFloat(DamageProgressID, damagePercent);
+            mpb.SetFloat(TimeSinceCrackID, timeSinceCrackAppeared);
+            crackRenderer.SetPropertyBlock(mpb);
         }
         else
         {
             HideCrack();
+            crackIsActive = false;
         }
     }
 }

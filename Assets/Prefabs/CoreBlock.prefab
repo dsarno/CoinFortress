@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: blockType
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1569645442382184612, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
+      propertyPath: currentHP
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2094112790197163804, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: m_Color.b
       value: 0
@@ -32,6 +36,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4210933386647882600, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
+      propertyPath: spritesDatabase
+      value: 
+      objectReference: {fileID: 11400000, guid: 711779c11c966419681b6763fc1eb7cc, type: 2}
     - target: {fileID: 7574463335031143440, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -75,5 +83,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 173356316462291025, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6331735397877330124}
   m_SourcePrefab: {fileID: 100100000, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
+--- !u!1 &2789803470352984869 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 173356316462291025, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
+  m_PrefabInstance: {fileID: 2652828946361791348}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6331735397877330124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2789803470352984869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61474abdddf684e06b68a5bfd8f6c011, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CrackEffect
+  spritesDatabase: {fileID: 0}
+  minRotation: -15
+  maxRotation: 15
+  minScale: 0.9
+  maxScale: 1.1
