@@ -2076,6 +2076,7 @@ GameObject:
   - component: {fileID: 307594824}
   - component: {fileID: 307594825}
   - component: {fileID: 307594826}
+  - component: {fileID: 307594827}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2154,6 +2155,19 @@ MonoBehaviour:
   musicVolume: 0
   sfxVolume: 0.746
   uiVolume: 0.751
+--- !u!114 &307594827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307594822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0e8c8c10f9634c10b1dadd4ccd95fe5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CrackEffectManager
+  spritesDatabase: {fileID: 11400000, guid: 711779c11c966419681b6763fc1eb7cc, type: 2}
 --- !u!1 &393769168
 GameObject:
   m_ObjectHideFlags: 0

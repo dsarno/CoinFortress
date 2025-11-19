@@ -26,6 +26,7 @@ public class FortressBlock : MonoBehaviour
     
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
+    private CrackEffect crackEffect;
     
     private void Start()
     {
@@ -34,6 +35,13 @@ public class FortressBlock : MonoBehaviour
         if (spriteRenderer != null)
         {
             originalColor = spriteRenderer.color;
+        }
+        
+        // Get or add crack effect component
+        crackEffect = GetComponent<CrackEffect>();
+        if (crackEffect == null)
+        {
+            crackEffect = gameObject.AddComponent<CrackEffect>();
         }
     }
     
@@ -45,6 +53,13 @@ public class FortressBlock : MonoBehaviour
         if (spriteRenderer != null)
         {
             StartCoroutine(FlashDamage());
+        }
+        
+        // Update crack effect
+        if (crackEffect != null)
+        {
+            float damagePercent = 1f - ((float)currentHP / maxHP);
+            crackEffect.UpdateCrackProgress(damagePercent);
         }
         
         Debug.Log($"{gameObject.name} took {amount} damage. HP: {currentHP}/{maxHP}");

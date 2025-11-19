@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 699e582a8a745481eb515c830e6f6145, type: 3}
+  m_Name: CrackSpritesDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::CrackSpritesDatabase
+  crackSprites:
+  - {fileID: 21300000, guid: 993ba1f2aa3c24c7a99a56d98de9750b, type: 3}
+  - {fileID: 21300000, guid: ddf18a04e7b0548188869b8202ff23cc, type: 3}
+  - {fileID: 21300000, guid: 5a56fd9092df546a29e65f83287d1597, type: 3}
+  - {fileID: 21300000, guid: 568bcc03dcf214fc2bbe637f06b07e5b, type: 3}
+  - {fileID: 21300000, guid: a15382617245b4d6091311a9dd2d0640, type: 3}
