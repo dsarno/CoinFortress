@@ -63,7 +63,6 @@ Shader "Custom/CrackShader"
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
             float4 _MainTex_ST;
-            float4 _MainTex_TexelSize;
             
             half _DamageProgress;
             half _TimeSinceCrack;
@@ -99,36 +98,22 @@ Shader "Custom/CrackShader"
                 half crackValue = 1.0 - texColor.r;
                 
                 // === FEATURE 1: THICKEN CRACK LINES ===
-                // Use dilation effect to thicken the crack
+                // Use a very aggressive dilation effect to thicken the crack
                 half thickened = crackValue;
                 if (_ThickenAmount > 0.001)
                 {
-                    // Calculate sampling radius in UV space
-                    // _ThickenAmount of 0.5 = 0.05 UV units, 1.0 = 0.10, 2.0 = 0.20
-                    // This works regardless of texture size
-                    // Increased multiplier for more visible thickening
-                    float sampleRadius = _ThickenAmount * 0.10;
-                    
+                    // Much larger texel size and multiplier for extreme thickening
+                    float2 texelSize = float2(0.015, 0.015);
                     half samples = crackValue;
                     
-                    // Use a fixed 5x5 kernel for consistent results
-                    // Sample in a grid pattern around the current pixel
-                    for (int x = -2; x <= 2; x++)
+                    // 7x7 kernel sampling for maximum dilation effect
+                    for (int x = -3; x <= 3; x++)
                     {
-                        for (int y = -2; y <= 2; y++)
+                        for (int y = -3; y <= 3; y++)
                         {
-                            // Calculate offset in UV space
-                            // Scale by sample radius to control thickness
-                            float2 offset = float2(x, y) * sampleRadius;
-                            
-                            // Sample the texture at offset position
+                            float2 offset = float2(x, y) * texelSize * _ThickenAmount * 100.0;
                             half4 samp = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord + offset);
-                            
-                            // Invert to get crack value (black = crack = 1.0)
-                            half sampCrackValue = 1.0 - samp.r;
-                            
-                            // Take maximum to dilate (expand) the crack
-                            samples = max(samples, sampCrackValue);
+                            samples = max(samples, 1.0 - samp.r);
                         }
                     }
                     thickened = samples;

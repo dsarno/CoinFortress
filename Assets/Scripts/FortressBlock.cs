@@ -37,29 +37,29 @@ public class FortressBlock : MonoBehaviour
             originalColor = spriteRenderer.color;
         }
         
-        // Get or add crack effect component
+        // Cache crack effect component
         crackEffect = GetComponent<CrackEffect>();
-        if (crackEffect == null)
-        {
-            crackEffect = gameObject.AddComponent<CrackEffect>();
-        }
     }
     
     public void TakeDamage(int amount)
     {
         currentHP -= amount;
         
-        // Visual feedback
-        if (spriteRenderer != null)
-        {
-            StartCoroutine(FlashDamage());
-        }
+        // Calculate damage percentage (0 = no damage, 1 = fully destroyed)
+        float damagePercent = 1f - (currentHP / (float)maxHP);
+        damagePercent = Mathf.Clamp01(damagePercent);
         
         // Update crack effect
         if (crackEffect != null)
         {
-            float damagePercent = 1f - ((float)currentHP / maxHP);
             crackEffect.UpdateCrackProgress(damagePercent);
+            Debug.Log($"[{gameObject.name}] Crack _Reveal set to {damagePercent:F2} (HP: {currentHP}/{maxHP})");
+        }
+        
+        // Visual feedback
+        if (spriteRenderer != null)
+        {
+            StartCoroutine(FlashDamage());
         }
         
         Debug.Log($"{gameObject.name} took {amount} damage. HP: {currentHP}/{maxHP}");
@@ -81,20 +81,19 @@ public class FortressBlock : MonoBehaviour
     {
         Debug.Log($"{gameObject.name} destroyed!");
         
-        // If this is the core or treasure chest, trigger level completion
-        if (blockType == BlockType.Core || blockType == BlockType.TreasureChest)
+        // If this is the core, trigger special behavior
+        if (blockType == BlockType.Core)
         {
-            TriggerLevelComplete();
+            TriggerCoreDestruction();
         }
         
-        // TODO: Add destruction VFX, coin explosion for treasure
+        // TODO: Add destruction VFX
         Destroy(gameObject);
     }
     
-    private void TriggerLevelComplete()
+    private void TriggerCoreDestruction()
     {
-        string blockName = blockType == BlockType.TreasureChest ? "TREASURE CHEST" : "CORE";
-        Debug.Log($"{blockName} DESTROYED! Level complete!");
+        Debug.Log("CORE DESTROYED! Level complete!");
         
         // Notify level manager
         LevelManager levelManager = FindFirstObjectByType<LevelManager>();

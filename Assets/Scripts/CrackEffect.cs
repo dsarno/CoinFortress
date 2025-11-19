@@ -1,179 +1,151 @@
 using UnityEngine;
 
+// CrackEffect now drives a single SpriteRenderer (the block's own renderer)
+// Your Shader Graph (CrackShaderCustom) blends _BlockTex and _CrackTex and reveals
+// the crack by _Reveal in [0..1]. We set both textures and animate _Reveal only.
 public class CrackEffect : MonoBehaviour
 {
     [Header("Crack Sprites Database")]
     public CrackSpritesDatabase spritesDatabase;
-    
-    [Header("Variation Settings")]
-    public float minRotation = -15f;
+
+    [Header("Crack Variation (sprite choice only)")]
+    public float minRotation = -15f; // kept for future use if needed
     public float maxRotation = 15f;
     public float minScale = 0.9f;
     public float maxScale = 1.1f;
-    
-    private SpriteRenderer crackRenderer;
-    private Transform blockTransform;
+
+    // IDs
+    private static readonly int RevealID   = Shader.PropertyToID("_Reveal");
+    private static readonly int BlockTexID = Shader.PropertyToID("_BlockTex");
+    private static readonly int CrackTexID = Shader.PropertyToID("_CrackTex");
+
+    // Cached
+    private SpriteRenderer blockSR;          // the block's own sprite renderer
     private MaterialPropertyBlock mpb;
-    private static readonly int DamageProgressID = Shader.PropertyToID("_DamageProgress");
-    private static readonly int TimeSinceCrackID = Shader.PropertyToID("_TimeSinceCrack");
-    
-    private float timeSinceCrackAppeared = 0f;
-    private bool crackIsActive = false;
-    
+    private bool debugOnce;                  // one-time debug flag
+
     private void Awake()
     {
-        blockTransform = transform.parent;
-        
-        // Create crack overlay as child
-        GameObject crackObj = new GameObject("CrackOverlay");
-        crackObj.transform.SetParent(transform, false);
-        crackObj.transform.localPosition = Vector3.zero;
-        
-        // Setup sprite renderer
-        crackRenderer = crackObj.AddComponent<SpriteRenderer>();
-        crackRenderer.sortingLayerName = "Default";
-        crackRenderer.sortingOrder = 1; // Above the block sprite
-        crackRenderer.color = Color.white;
-        
-        // Assign crack material
-        AssignCrackMaterial();
-        
-        // Initialize MaterialPropertyBlock
-        mpb = new MaterialPropertyBlock();
-        
-        // Scale crack to fit the block sprite
-        ScaleCrackToBlock();
-        
-        // Start hidden
-        crackRenderer.enabled = false;
-    }
-    
-    private void AssignCrackMaterial()
-    {
-        // Get material from manager if available
+        blockSR = GetComponent<SpriteRenderer>();
+        if (blockSR == null)
+        {
+            Debug.LogError($"CrackEffect requires a SpriteRenderer on {name}.");
+            enabled = false;
+            return;
+        }
+
+        // Ensure material is the crack material from the manager
         if (CrackEffectManager.Instance != null)
         {
-            Material crackMat = CrackEffectManager.Instance.GetCrackMaterial();
-            if (crackMat != null)
+            var mat = CrackEffectManager.Instance.GetCrackMaterial();
+            if (mat != null)
             {
-                crackRenderer.material = crackMat;
+                // use a material instance on this renderer
+                blockSR.material = mat;
             }
         }
-    }
-    
-    private void ScaleCrackToBlock()
-    {
-        // We'll calculate the proper scale in ShowCrack when we know the crack sprite size
-        crackRenderer.transform.localScale = Vector3.one;
-    }
-    
-    public void ShowCrack()
-    {
-        // Get database from manager if not assigned
-        if (spritesDatabase == null && CrackEffectManager.Instance != null)
+
+        // Property block for per-instance values
+        mpb = new MaterialPropertyBlock();
+
+        // Set the base block texture from the current sprite
+        if (blockSR.sprite != null)
         {
-            spritesDatabase = CrackEffectManager.Instance.GetDatabase();
+            blockSR.GetPropertyBlock(mpb);
+            mpb.SetTexture(BlockTexID, blockSR.sprite.texture);
+            mpb.SetFloat(RevealID, 0f); // hidden by default
+            blockSR.SetPropertyBlock(mpb);
         }
-        
+    }
+
+    // Pick and assign a crack texture to the material (single time per first damage)
+    private void EnsureCrackTextureAssigned()
+    {
+        if (spritesDatabase == null && CrackEffectManager.Instance != null)
+            spritesDatabase = CrackEffectManager.Instance.GetDatabase();
+
         if (spritesDatabase == null || spritesDatabase.crackSprites == null || spritesDatabase.crackSprites.Length == 0)
         {
-            Debug.LogWarning("No crack sprites database or sprites assigned!");
+            Debug.LogWarning($"[{name}] Crack sprites database missing or empty.");
             return;
         }
-        
-        // Pick random crack sprite
-        Sprite randomCrack = spritesDatabase.crackSprites[Random.Range(0, spritesDatabase.crackSprites.Length)];
-        crackRenderer.sprite = randomCrack;
-        
-        // Calculate proper scale to fit block
-        SpriteRenderer blockRenderer = GetComponentInParent<SpriteRenderer>();
-        if (blockRenderer != null && blockRenderer.sprite != null && randomCrack != null)
+
+        // If a crack already assigned, skip
+        blockSR.GetPropertyBlock(mpb);
+        var currentCrackTex = mpb != null ? mpb.GetTexture(CrackTexID) : null;
+        if (currentCrackTex != null) return;
+
+        // Choose random crack sprite
+        var crackSprite = spritesDatabase.crackSprites[Random.Range(0, spritesDatabase.crackSprites.Length)];
+        if (crackSprite == null)
         {
-            // Get block size in world units (using bounds which accounts for scale)
-            Bounds blockBounds = blockRenderer.bounds;
-            Vector2 blockSize = new Vector2(blockBounds.size.x, blockBounds.size.y);
-            
-            // Target crack size is 80% of block size
-            float targetSizePercent = 0.8f;
-            Vector2 targetSize = blockSize * targetSizePercent;
-            
-            // Get crack sprite size at scale 1
-            Vector2 crackSize = randomCrack.bounds.size;
-            
-            // Calculate scale needed to fit target size
-            float scaleX = targetSize.x / crackSize.x;
-            float scaleY = targetSize.y / crackSize.y;
-            float uniformScale = Mathf.Min(scaleX, scaleY); // Use minimum to fit within bounds
-            
-            // Apply random rotation (clamped)
-            float randomRotation = Random.Range(minRotation, maxRotation);
-            crackRenderer.transform.localRotation = Quaternion.Euler(0, 0, randomRotation);
-            
-            // Apply scale with random variation (clamped)
-            float randomScaleVariation = Random.Range(minScale, maxScale);
-            crackRenderer.transform.localScale = Vector3.one * uniformScale * randomScaleVariation;
+            Debug.LogWarning($"[{name}] Selected crack sprite is null.");
+            return;
         }
-        
-        // Show the crack
-        crackRenderer.enabled = true;
+
+        // Assign
+        mpb.SetTexture(CrackTexID, crackSprite.texture);
+        blockSR.SetPropertyBlock(mpb);
     }
-    
-    public void HideCrack()
-    {
-        if (crackRenderer != null)
-        {
-            crackRenderer.enabled = false;
-        }
-    }
-    
-    private void Update()
-    {
-        // Update time since crack appeared for emission fade-in
-        if (crackIsActive && crackRenderer != null && crackRenderer.enabled)
-        {
-            timeSinceCrackAppeared += Time.deltaTime;
-            
-            // Update shader with elapsed time
-            if (mpb == null) mpb = new MaterialPropertyBlock();
-            crackRenderer.GetPropertyBlock(mpb);
-            mpb.SetFloat(TimeSinceCrackID, timeSinceCrackAppeared);
-            crackRenderer.SetPropertyBlock(mpb);
-        }
-    }
-    
+
     public void UpdateCrackProgress(float damagePercent)
     {
-        // Ensure crack renderer exists (in case this is called before Awake)
-        if (crackRenderer == null)
+        if (blockSR == null) return;
+
+        // One-pass MPB update
+        blockSR.GetPropertyBlock(mpb);
+
+        // Update base texture from current sprite (only if shader expects it)
+        if (blockSR.sprite != null)
         {
-            Debug.LogWarning($"CrackEffect on {transform.parent?.name ?? gameObject.name}: crackRenderer not initialized. Call Awake first or wait for Start.");
-            return;
+            mpb.SetTexture(BlockTexID, blockSR.sprite.texture);
+        }
+
+        // Ensure crack texture assigned once
+        if (mpb.GetTexture(CrackTexID) == null)
+        {
+            EnsureCrackTextureAssigned();
+            // EnsureCrackTextureAssigned() already set CrackTex in mpb via SetPropertyBlock,
+            // so refresh local copy to continue updating in one pass.
+            blockSR.GetPropertyBlock(mpb);
+        }
+
+        // Reveal amount
+        mpb.SetFloat(RevealID, Mathf.Clamp01(damagePercent));
+        blockSR.SetPropertyBlock(mpb);
+        
+        // Debug log once per object
+        if (!debugOnce && damagePercent > 0f)
+        {
+            Debug.Log($"[CrackEffect:{name}] _Reveal={damagePercent:F2}, CrackTex={mpb.GetTexture(CrackTexID)?.name ?? "null"}");
+            debugOnce = true;
         }
         
-        // Show crack if any damage
-        if (damagePercent > 0)
+        // TEMPORARY: Fallback to sharedMaterial to isolate MPB vs shader Reference issues
+        // Remove this after confirming shader works correctly
+        if (blockSR.sharedMaterial != null)
         {
-            bool wasEnabled = crackRenderer.enabled;
-            
-            if (!wasEnabled)
-            {
-                ShowCrack();
-                // Reset time on new crack appearance
-                timeSinceCrackAppeared = 0f;
-                crackIsActive = true;
-            }
-            
-            // Update shader progress via MaterialPropertyBlock
-            if (mpb == null) mpb = new MaterialPropertyBlock();
-            crackRenderer.GetPropertyBlock(mpb);
-            mpb.SetFloat(DamageProgressID, damagePercent);
-            mpb.SetFloat(TimeSinceCrackID, timeSinceCrackAppeared);
-            crackRenderer.SetPropertyBlock(mpb);
-        }
-        else
-        {
-            HideCrack();
-            crackIsActive = false;
+            blockSR.sharedMaterial.SetFloat("_Reveal", Mathf.Clamp01(damagePercent));
         }
     }
+
+    // Hide/reset cracks (e.g., on repair)
+    public void HideCrack()
+    {
+        if (blockSR == null) return;
+        blockSR.GetPropertyBlock(mpb);
+        mpb.SetFloat(RevealID, 0f);
+        blockSR.SetPropertyBlock(mpb);
+    }
+    
+#if UNITY_EDITOR
+    // Editor safety: ensure property IDs are valid at edit time
+    private void OnValidate()
+    {
+        // Touch the property IDs to catch reference issues early
+        _ = RevealID;
+        _ = BlockTexID;
+        _ = CrackTexID;
+    }
+#endif
 }

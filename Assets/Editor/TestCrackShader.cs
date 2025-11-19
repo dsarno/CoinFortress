@@ -7,7 +7,7 @@ public class TestCrackShader : MonoBehaviour
     public static void Execute()
     {
         // Find all FortressBlock objects with CrackEffect components
-        FortressBlock[] blocks = Object.FindObjectsByType<FortressBlock>(FindObjectsSortMode.None);
+        FortressBlock[] blocks = Object.FindObjectsOfType<FortressBlock>();
         
         if (blocks.Length == 0)
         {
@@ -39,7 +39,7 @@ public class TestCrackShader : MonoBehaviour
     [MenuItem("Tools/Reset All Cracks")]
     public static void ResetCracks()
     {
-        FortressBlock[] blocks = Object.FindObjectsByType<FortressBlock>(FindObjectsSortMode.None);
+        FortressBlock[] blocks = Object.FindObjectsOfType<FortressBlock>();
         
         foreach (var block in blocks)
         {
