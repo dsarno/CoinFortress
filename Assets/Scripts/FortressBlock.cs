@@ -66,29 +66,26 @@ public class FortressBlock : MonoBehaviour
     {
         Debug.Log($"{gameObject.name} destroyed!");
         
-        // If this is the core, trigger special behavior
-        if (blockType == BlockType.Core)
+        // If this is the core or treasure chest, trigger level completion
+        if (blockType == BlockType.Core || blockType == BlockType.TreasureChest)
         {
-            TriggerCoreDestruction();
+            TriggerLevelComplete();
         }
         
-        // TODO: Add destruction VFX
+        // TODO: Add destruction VFX, coin explosion for treasure
         Destroy(gameObject);
     }
     
-    private void TriggerCoreDestruction()
+    private void TriggerLevelComplete()
     {
-        Debug.Log("CORE DESTROYED! Level complete!");
+        string blockName = blockType == BlockType.TreasureChest ? "TREASURE CHEST" : "CORE";
+        Debug.Log($"{blockName} DESTROYED! Level complete!");
         
-        // For now, just trigger the coin fountain directly
-        // TODO: Move this to FortressManager when we create it
-        StartCoroutine(SpawnCoinFountain());
-    }
-    
-    private System.Collections.IEnumerator SpawnCoinFountain()
-    {
-        Debug.Log("Coin fountain activated!");
-        // TODO: Implement actual coin spawning
-        yield return null;
+        // Notify level manager
+        LevelManager levelManager = FindFirstObjectByType<LevelManager>();
+        if (levelManager != null)
+        {
+            levelManager.OnCoreDestroyed(transform.position);
+        }
     }
 }

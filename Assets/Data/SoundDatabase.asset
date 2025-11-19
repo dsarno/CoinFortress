@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83463c7a9313a4b749dabdc8db818981, type: 3}
+  m_Name: SoundDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::SoundDatabase
+  musicTracks:
+  - trackName: Fortress Break
+    levelNumber: 1
+    musicClip: {fileID: 8300000, guid: 8c8e449ecabb64039b9025c09b6c67fd, type: 3}
+  - trackName: Fortress Break
+    levelNumber: 2
+    musicClip: {fileID: 8300000, guid: bc639e00d53b04fb88ba7c253e1f1c01, type: 3}
+  - trackName: Fortress Break
+    levelNumber: 3
+    musicClip: {fileID: 8300000, guid: 27c53fc21c90a4a84b2e8b17e6b0e49d, type: 3}
+  cannonFiringSounds:
+  - {fileID: 8300000, guid: 9b87ce98be07146f4a20b35cd843698b, type: 3}
+  - {fileID: 8300000, guid: 4bcefcaf39fd04cabad924ec3504c924, type: 3}
+  - {fileID: 8300000, guid: bcca1f9dcc3ff40329e94bdb93482593, type: 3}
+  - {fileID: 8300000, guid: f2fef17dd38954231a7e99c530df8283, type: 3}
+  enemyFiringSounds: []
+  impactSounds:
+  - soundName: Glass Impact
+    blockTypes: 06000000
+    sounds:
+    - {fileID: 8300000, guid: fca1cc0edd7f342c680c636d898b5d5a, type: 3}
+  - soundName: Stone Impact
+    blockTypes: 0100000002000000030000000400000007000000
+    sounds:
+    - {fileID: 8300000, guid: ad36aa4e83ea04bdab71c40f1b8953c9, type: 3}
+  uiSounds:
+    buttonClick: {fileID: 8300000, guid: 031428a84194148e2b348afd4d06d31e, type: 3}
+    buttonHover: {fileID: 8300000, guid: 9766a391f4db142feb06d49b6aaf9e26, type: 3}
+    purchaseSuccess: {fileID: 0}
+    purchaseFail: {fileID: 0}
+    levelStart: {fileID: 0}
+    levelComplete: {fileID: 0}
+    gameOver: {fileID: 0}
+    shieldActivate: {fileID: 0}
+    shieldBreak: {fileID: 0}
+    ammoReload: {fileID: 0}

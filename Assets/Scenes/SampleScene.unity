@@ -832,6 +832,75 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &307594822
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 307594823}
+  - component: {fileID: 307594824}
+  - component: {fileID: 307594825}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &307594823
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307594822}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &307594824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307594822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 233887f57ce124000a9977bcee9b8e33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelManager
+  playerStats: {fileID: 1254431811}
+  fortressSpawner: {fileID: 1484576532}
+  storeManager: {fileID: 0}
+  currentLevel: 1
+  levelInProgress: 0
+  coinPrefab: {fileID: 0}
+  coinsPerLevel: 50
+  coinFountainDuration: 2
+  coinSpawnRate: 0.1
+--- !u!114 &307594825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307594822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 650042ab1344e430f9d57493e8674339, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UISetupHelper
+  playerStats: {fileID: 1254431811}
+  storeManager: {fileID: 0}
+  levelManager: {fileID: 0}
 --- !u!1 &325794006
 GameObject:
   m_ObjectHideFlags: 0
@@ -3655,9 +3724,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   damage: 1
   fireCooldown: 0.5
+  ammo: 10
+  maxAmmo: 10
+  ammoTier: 0
+  weakShotDamage: 1
+  weakShotCooldown: 2
   maxHP: 3
   currentHP: 3
+  shieldUnlocked: 0
+  shieldMaxHP: 5
+  shieldCurrentHP: 0
   coins: 0
+  damageLevel: 1
+  fireRateLevel: 1
+  ammoCapacityLevel: 1
+  onStatsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  onAmmoChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  onCoinsChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1305281076
 GameObject:
   m_ObjectHideFlags: 0
@@ -5675,3 +5764,4 @@ SceneRoots:
   - {fileID: 1484576531}
   - {fileID: 116184473}
   - {fileID: 556685931}
+  - {fileID: 307594823}

@@ -30,33 +30,42 @@ public class FortressSpawner : MonoBehaviour
             return;
         }
         
-        // Create or find fortress root
-        if (fortressRoot == null)
+        Debug.Log($"SpawnFortress called - Layout: {layout.name} ({layout.width}x{layout.height})");
+        
+        // Always destroy and recreate fortress root for clean spawning
+        if (fortressRoot != null)
         {
-            if (spawnPoint != null)
-            {
-                Transform existingRoot = spawnPoint.Find("FortressRoot");
-                if (existingRoot != null)
-                {
-                    fortressRoot = existingRoot;
-                }
-                else
-                {
-                    GameObject rootObj = new GameObject("FortressRoot");
-                    fortressRoot = rootObj.transform;
-                    fortressRoot.SetParent(spawnPoint);
-                    fortressRoot.localPosition = Vector3.zero;
-                }
-            }
+            if (Application.isPlaying)
+                Destroy(fortressRoot.gameObject);
             else
-            {
-                GameObject rootObj = new GameObject("FortressRoot");
-                fortressRoot = rootObj.transform;
-            }
+                DestroyImmediate(fortressRoot.gameObject);
+            fortressRoot = null;
         }
         
-        // Clear existing fortress
-        ClearFortress();
+        // Also check for any existing FortressRoot in scene
+        GameObject existingFortress = GameObject.Find("FortressRoot");
+        if (existingFortress != null)
+        {
+            if (Application.isPlaying)
+                Destroy(existingFortress);
+            else
+                DestroyImmediate(existingFortress);
+            Debug.Log("Destroyed existing FortressRoot");
+        }
+        
+        // Create fresh fortress root
+        GameObject rootObj = new GameObject("FortressRoot");
+        fortressRoot = rootObj.transform;
+        
+        // Position it in the scene (not parented to spawner)
+        if (spawnPoint != null)
+        {
+            fortressRoot.position = spawnPoint.position;
+        }
+        else
+        {
+            fortressRoot.position = Vector3.zero;
+        }
         
         // Spawn blocks from layout
         for (int y = 0; y < layout.height; y++)
@@ -113,10 +122,24 @@ public class FortressSpawner : MonoBehaviour
             return;
         
         // Destroy all children
-        while (fortressRoot.childCount > 0)
+        if (Application.isPlaying)
         {
-            DestroyImmediate(fortressRoot.GetChild(0).gameObject);
+            // Use Destroy in play mode
+            foreach (Transform child in fortressRoot)
+            {
+                Destroy(child.gameObject);
+            }
         }
+        else
+        {
+            // Use DestroyImmediate in edit mode
+            while (fortressRoot.childCount > 0)
+            {
+                DestroyImmediate(fortressRoot.GetChild(0).gameObject);
+            }
+        }
+        
+        Debug.Log("Fortress cleared");
     }
     
     private GameObject GetPrefabForType(BlockType blockType)

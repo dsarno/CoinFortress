@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public class PlayerCannonController : MonoBehaviour
 {
@@ -13,14 +14,17 @@ public class PlayerCannonController : MonoBehaviour
     
     private PlayerStats playerStats;
     private float lastFireTime;
+    private float lastWeakFireTime;
     private Camera mainCamera;
     private Mouse mouse;
+    private LevelManager levelManager;
     
     private void Start()
     {
         playerStats = GetComponentInParent<PlayerStats>();
         mainCamera = Camera.main;
         mouse = Mouse.current;
+        levelManager = FindFirstObjectByType<LevelManager>();
         
         // Create fire point if not assigned
         if (firePoint == null)
@@ -42,6 +46,18 @@ public class PlayerCannonController : MonoBehaviour
     
     private void Update()
     {
+        // Only allow cannon control during gameplay
+        if (levelManager != null && !levelManager.levelInProgress)
+        {
+            return;
+        }
+        
+        // Don't aim or fire if mouse is over UI
+        if (IsPointerOverUI())
+        {
+            return;
+        }
+        
         AimAtMouse();
         HandleFiring();
     }
@@ -67,19 +83,45 @@ public class PlayerCannonController : MonoBehaviour
     {
         if (mouse == null) return;
         
-        // Fire on left click with cooldown
-        if (mouse.leftButton.isPressed && CanFire())
+        // Don't fire if mouse is over UI
+        if (IsPointerOverUI())
         {
-            Fire();
+            return;
+        }
+        
+        // Fire on left click
+        if (mouse.leftButton.isPressed)
+        {
+            if (playerStats.HasAmmo() && CanFireNormal())
+            {
+                FireNormalShot();
+            }
+            else if (!playerStats.HasAmmo() && CanFireWeak())
+            {
+                FireWeakShot();
+            }
         }
     }
     
-    private bool CanFire()
+    private bool IsPointerOverUI()
+    {
+        // Check if mouse is over any UI element
+        if (EventSystem.current == null) return false;
+        
+        return EventSystem.current.IsPointerOverGameObject();
+    }
+    
+    private bool CanFireNormal()
     {
         return Time.time >= lastFireTime + playerStats.fireCooldown;
     }
     
-    private void Fire()
+    private bool CanFireWeak()
+    {
+        return Time.time >= lastWeakFireTime + playerStats.weakShotCooldown;
+    }
+    
+    private void FireNormalShot()
     {
         if (projectilePrefab == null || firePoint == null)
         {
@@ -88,6 +130,13 @@ public class PlayerCannonController : MonoBehaviour
         }
         
         lastFireTime = Time.time;
+        playerStats.ConsumeAmmo();
+        
+        // Play cannon firing sound
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayCannonFireSound();
+        }
         
         // Spawn projectile
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
@@ -97,7 +146,57 @@ public class PlayerCannonController : MonoBehaviour
         {
             // Fire in the direction the cannon is pointing
             Vector2 direction = firePoint.right;
-            projectileScript.Initialize(direction, projectileSpeed, playerStats.damage);
+            int damage = GetProjectileDamage();
+            projectileScript.Initialize(direction, projectileSpeed, damage, playerStats.ammoTier);
+        }
+        
+        Debug.Log($"Fired normal shot! Ammo remaining: {playerStats.ammo}");
+    }
+    
+    private void FireWeakShot()
+    {
+        if (projectilePrefab == null || firePoint == null)
+        {
+            Debug.LogWarning("Missing projectile prefab or fire point!");
+            return;
+        }
+        
+        lastWeakFireTime = Time.time;
+        
+        // Play cannon firing sound
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayCannonFireSound();
+        }
+        
+        // Spawn weak projectile
+        GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+        Projectile projectileScript = projectile.GetComponent<Projectile>();
+        
+        if (projectileScript != null)
+        {
+            Vector2 direction = firePoint.right;
+            projectileScript.Initialize(direction, projectileSpeed * 0.7f, playerStats.weakShotDamage, 0);
+            
+            // Make it visually distinct (darker color)
+            SpriteRenderer sr = projectile.GetComponent<SpriteRenderer>();
+            if (sr != null)
+            {
+                sr.color = new Color(0.5f, 0.5f, 0.5f, 1f);
+            }
+        }
+        
+        Debug.Log("Fired weak fallback shot! (Out of ammo)");
+    }
+    
+    private int GetProjectileDamage()
+    {
+        switch (playerStats.ammoTier)
+        {
+            default:
+            case 0: return playerStats.damage; // Standard
+            case 1: return Mathf.RoundToInt(playerStats.damage * 1.5f); // Heavy (+50%)
+            case 2: return Mathf.RoundToInt(playerStats.damage * 1.5f); // Explosive (damage + splash)
         }
     }
 }
