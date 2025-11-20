@@ -138,7 +138,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Reveal: 1
+    - _Reveal: 0.5
     - _RevealMode: 0.19
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0

@@ -4,7 +4,7 @@ using UnityEditor;
 public class FinalizeSetup
 {
     [MenuItem("Tools/Finalize Game Setup")]
-    public static void Finalize()
+    public static void DoFinalize()
     {
         LevelManager levelManager = Object.FindFirstObjectByType<LevelManager>();
         StoreManager storeManager = Object.FindFirstObjectByType<StoreManager>();

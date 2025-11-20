@@ -855,8 +855,8 @@
     "m_ObjectId": "0c5d1df8ae4a401d9aed74c105e778f7",
     "m_Title": "FinalCrackMask",
     "m_Position": {
-        "x": 1416.0,
-        "y": -695.0000610351563
+        "x": 1415.9998779296875,
+        "y": -695.0
     }
 }
 
@@ -2254,8 +2254,8 @@
     "m_ObjectId": "7e436e3d434f4413baf51b486e9ba806",
     "m_Title": "StepSize",
     "m_Position": {
-        "x": -839.0,
-        "y": 288.99993896484377
+        "x": -838.9999389648438,
+        "y": 288.9999694824219
     }
 }
 
@@ -2546,8 +2546,8 @@
     "m_ObjectId": "959deefabbd5402a96633f2eb95f420e",
     "m_Title": "BlockBaseColor",
     "m_Position": {
-        "x": 769.0001831054688,
-        "y": -1051.0001220703125
+        "x": 769.0,
+        "y": -1051.0
     }
 }
 
@@ -4135,8 +4135,8 @@
     "m_ObjectId": "ecfecacf5bf04a558e12d61bb999ee2a",
     "m_Title": "CrackAlpha",
     "m_Position": {
-        "x": -593.0001220703125,
-        "y": -586.0000610351563
+        "x": -593.0,
+        "y": -586.0
     }
 }
 

@@ -6,7 +6,7 @@ public class AutoSetupUI
     [MenuItem("Tools/Setup Game UI")]
     public static void SetupUI()
     {
-        UISetupHelper helper = Object.FindObjectOfType<UISetupHelper>();
+        UISetupHelper helper = Object.FindFirstObjectByType<UISetupHelper>();
         if (helper == null)
         {
             Debug.LogError("UISetupHelper not found in scene! Please add it to a GameObject first.");
@@ -17,7 +17,7 @@ public class AutoSetupUI
         
         // Wire up final references
         LevelManager levelManager = helper.GetComponent<LevelManager>();
-        StoreManager storeManager = Object.FindObjectOfType<StoreManager>();
+        StoreManager storeManager = Object.FindFirstObjectByType<StoreManager>();
         
         if (levelManager != null && storeManager != null)
         {
