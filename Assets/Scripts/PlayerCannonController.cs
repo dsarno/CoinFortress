@@ -6,6 +6,7 @@ public class PlayerCannonController : MonoBehaviour
 {
     [Header("References")]
     public GameObject projectilePrefab;
+    public GameObject fireEffectPrefab;
     public Transform firePoint;
     
     [Header("Settings")]
@@ -141,6 +142,12 @@ public class PlayerCannonController : MonoBehaviour
         // Spawn projectile
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
         Projectile projectileScript = projectile.GetComponent<Projectile>();
+
+        // Spawn fire effect
+        if (fireEffectPrefab != null)
+        {
+            Instantiate(fireEffectPrefab, firePoint.position, firePoint.rotation);
+        }
         
         if (projectileScript != null)
         {
@@ -172,6 +179,12 @@ public class PlayerCannonController : MonoBehaviour
         // Spawn weak projectile
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
         Projectile projectileScript = projectile.GetComponent<Projectile>();
+
+        // Spawn fire effect
+        if (fireEffectPrefab != null)
+        {
+            Instantiate(fireEffectPrefab, firePoint.position, firePoint.rotation);
+        }
         
         if (projectileScript != null)
         {
