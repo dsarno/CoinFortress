@@ -91,6 +91,7 @@ public class UISound
     [Header("Button Sounds")]
     public AudioClip buttonClick;
     public AudioClip buttonHover;
+    public AudioClip coinHover;
     
     [Header("Purchase Sounds")]
     public AudioClip purchaseSuccess;

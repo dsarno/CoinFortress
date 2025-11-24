@@ -106,23 +106,12 @@ public class UISetupHelper : MonoBehaviour
         
         // Ammo Section
         CreateStoreText(storePanel.transform, "Ammo Section Title", new Vector2(0, 200), "=== AMMO ===", 20);
-        GameObject currentAmmoTier = CreateStoreText(storePanel.transform, "Current Ammo Tier", new Vector2(0, 170), "Current: Standard", 16);
         GameObject buyAmmoPack = CreateStoreButton(storePanel.transform, "Buy Ammo Pack", new Vector2(0, 130), "Buy Ammo Pack (+5) - Cost: 10");
-        GameObject upgradeAmmoTier = CreateStoreButton(storePanel.transform, "Upgrade Ammo Tier", new Vector2(0, 90), "Upgrade Ammo Tier - Cost: 50");
         
         // Cannon Section
         CreateStoreText(storePanel.transform, "Cannon Section Title", new Vector2(0, 40), "=== CANNON ===", 20);
-        GameObject damageDisplay = CreateStoreText(storePanel.transform, "Damage Current", new Vector2(-150, 10), "Damage: 1", 14);
-        GameObject upgradeDamage = CreateStoreButton(storePanel.transform, "Upgrade Damage", new Vector2(-150, -20), "Upgrade - Cost: 20", new Vector2(250, 40));
-        GameObject fireRateDisplay = CreateStoreText(storePanel.transform, "Fire Rate Current", new Vector2(150, 10), "Cooldown: 0.5s", 14);
-        GameObject upgradeFireRate = CreateStoreButton(storePanel.transform, "Upgrade Fire Rate", new Vector2(150, -20), "Upgrade - Cost: 25", new Vector2(250, 40));
-        
-        // Shield Section
-        CreateStoreText(storePanel.transform, "Shield Section Title", new Vector2(0, -80), "=== SHIELD ===", 20);
-        GameObject shieldDisplay = CreateStoreText(storePanel.transform, "Shield Current", new Vector2(0, -110), "Shield: 0/0", 14);
-        GameObject unlockShield = CreateStoreButton(storePanel.transform, "Unlock Shield", new Vector2(-100, -140), "Unlock - Cost: 100", new Vector2(180, 40));
-        GameObject upgradeShieldHP = CreateStoreButton(storePanel.transform, "Upgrade Shield HP", new Vector2(100, -140), "Upgrade HP - Cost: 30", new Vector2(180, 40));
-        GameObject repairShield = CreateStoreButton(storePanel.transform, "Repair Shield", new Vector2(0, -190), "Repair Shield - Cost: 15", new Vector2(280, 40));
+        GameObject buyBiggerBalls = CreateStoreButton(storePanel.transform, "Buy Bigger Balls", new Vector2(-150, -20), "Bigger Balls - Cost: 10", new Vector2(250, 40));
+        GameObject buyNewCannon = CreateStoreButton(storePanel.transform, "Canon Upgrade", new Vector2(150, -20), "New Cannon - Cost: 10", new Vector2(250, 40));
         
         // Setup StoreManager
         if (storeManager == null)
@@ -135,28 +124,14 @@ public class UISetupHelper : MonoBehaviour
         storeManager.coinsText = coinsDisplay.GetComponent<TextMeshProUGUI>();
         
         // Ammo buttons
-        storeManager.buyAmmoPack = buyAmmoPack.GetComponent<Button>();
+        storeManager.buyAmmoPackButton = buyAmmoPack.GetComponent<Button>();
         storeManager.ammoPackCostText = buyAmmoPack.GetComponentInChildren<TextMeshProUGUI>();
-        storeManager.upgradeAmmoTier = upgradeAmmoTier.GetComponent<Button>();
-        storeManager.ammoTierCostText = upgradeAmmoTier.GetComponentInChildren<TextMeshProUGUI>();
-        storeManager.currentAmmoTierText = currentAmmoTier.GetComponent<TextMeshProUGUI>();
         
         // Cannon buttons
-        storeManager.upgradeDamage = upgradeDamage.GetComponent<Button>();
-        storeManager.damageCostText = upgradeDamage.GetComponentInChildren<TextMeshProUGUI>();
-        storeManager.damageCurrentText = damageDisplay.GetComponent<TextMeshProUGUI>();
-        storeManager.upgradeFireRate = upgradeFireRate.GetComponent<Button>();
-        storeManager.fireRateCostText = upgradeFireRate.GetComponentInChildren<TextMeshProUGUI>();
-        storeManager.fireRateCurrentText = fireRateDisplay.GetComponent<TextMeshProUGUI>();
-        
-        // Shield buttons
-        storeManager.unlockShield = unlockShield.GetComponent<Button>();
-        storeManager.unlockShieldCostText = unlockShield.GetComponentInChildren<TextMeshProUGUI>();
-        storeManager.upgradeShieldHP = upgradeShieldHP.GetComponent<Button>();
-        storeManager.shieldHPCostText = upgradeShieldHP.GetComponentInChildren<TextMeshProUGUI>();
-        storeManager.shieldCurrentText = shieldDisplay.GetComponent<TextMeshProUGUI>();
-        storeManager.repairShield = repairShield.GetComponent<Button>();
-        storeManager.repairShieldCostText = repairShield.GetComponentInChildren<TextMeshProUGUI>();
+        storeManager.buyBiggerBallsButton = buyBiggerBalls.GetComponent<Button>();
+        storeManager.biggerBallsCostText = buyBiggerBalls.GetComponentInChildren<TextMeshProUGUI>();
+        storeManager.buyNewCannonButton = buyNewCannon.GetComponent<Button>();
+        storeManager.newCannonCostText = buyNewCannon.GetComponentInChildren<TextMeshProUGUI>();
         
         // Hook up Start Level button to LevelManager
         if (levelManager != null)

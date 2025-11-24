@@ -32,14 +32,19 @@ MonoBehaviour:
   - soundName: Glass Impact
     blockTypes: 06000000
     sounds:
-    - {fileID: 8300000, guid: fca1cc0edd7f342c680c636d898b5d5a, type: 3}
+    - {fileID: 8300000, guid: 2e7446996e73c40b7863418f71fb5e2c, type: 3}
   - soundName: Stone Impact
     blockTypes: 0100000002000000030000000400000007000000
     sounds:
     - {fileID: 8300000, guid: ad36aa4e83ea04bdab71c40f1b8953c9, type: 3}
+  - soundName: Chest Impact
+    blockTypes: 08000000
+    sounds:
+    - {fileID: 8300000, guid: 7069904b009434d8687b96e58d8e9625, type: 3}
   uiSounds:
     buttonClick: {fileID: 8300000, guid: 031428a84194148e2b348afd4d06d31e, type: 3}
     buttonHover: {fileID: 8300000, guid: 9766a391f4db142feb06d49b6aaf9e26, type: 3}
+    coinHover: {fileID: 8300000, guid: 8bcd023de90ec40a5b6cacd2b9319387, type: 3}
     purchaseSuccess: {fileID: 0}
     purchaseFail: {fileID: 0}
     levelStart: {fileID: 0}

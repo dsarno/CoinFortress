@@ -102,7 +102,8 @@ public class CoinController : MonoBehaviour
         // Play collection sound
         if (SoundManager.Instance != null)
         {
-            SoundManager.Instance.PlayPurchaseSuccess(); // Use purchase success sound as coin collect for now
+            SoundManager.Instance.PlayCoinHover(); // Play hover sound immediately
+            // We'll play the "cha-ching" (PurchaseSuccess) when it actually hits the UI target
         }
     }
     
@@ -132,6 +133,12 @@ public class CoinController : MonoBehaviour
             if (playerStats != null)
             {
                 playerStats.AddCoins(1);
+                
+                // Play collection sound (cha-ching) when it hits the target
+                if (SoundManager.Instance != null)
+                {
+                    SoundManager.Instance.PlayPurchaseSuccess();
+                }
             }
             
             Destroy(gameObject);

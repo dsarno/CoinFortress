@@ -251,6 +251,29 @@ public class SoundManager : MonoBehaviour
         if (soundDatabase?.uiSounds?.purchaseSuccess != null)
             PlayUISound(soundDatabase.uiSounds.purchaseSuccess);
     }
+
+    public void PlayCoinHover()
+    {
+        // Use a higher pitch for coin hover to distinguish it
+        if (uiSource != null)
+        {
+            uiSource.pitch = 1.5f;
+            // Prefer dedicated coin hover sound, fallback to button hover
+            AudioClip clip = soundDatabase?.uiSounds?.coinHover;
+            if (clip == null) clip = soundDatabase?.uiSounds?.buttonHover;
+            
+            if (clip != null)
+                uiSource.PlayOneShot(clip, 0.5f);
+            
+            StartCoroutine(ResetUIPitch());
+        }
+    }
+
+    private IEnumerator ResetUIPitch()
+    {
+        yield return new WaitForSeconds(0.1f);
+        if (uiSource != null) uiSource.pitch = 1.0f;
+    }
     
     public void PlayPurchaseFail()
     {

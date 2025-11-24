@@ -168,12 +168,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6712995f8ca60401f8f652c6d2a01a25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoinController
-  minUpForce: 3
-  maxUpForce: 6
-  minSideForce: -2
-  maxSideForce: -5
+  minUpForce: 4.29
+  maxUpForce: 8
+  minSideForce: -5
+  maxSideForce: -7
   torqueAmount: 10
-  collectionSpeed: 40
+  collectionSpeed: 60
   magnetDistance: 2
   rotationSpeed: 360
   frontSprite: {fileID: 2309077333115521486, guid: 2420e6bfd9047469b9244d6c28df6cde, type: 3}
