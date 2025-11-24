@@ -23,6 +23,11 @@ public class FortressBlock : MonoBehaviour
     [Header("Visual Feedback")]
     public Color damageColor = Color.red;
     public float damageFlashDuration = 0.1f;
+    public GameObject hitEffectPrefab;
+
+    [Header("Loot Settings")]
+    public GameObject coinPrefab;
+    public int coinDropCount = 0;
     
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
@@ -61,6 +66,12 @@ public class FortressBlock : MonoBehaviour
         {
             StartCoroutine(FlashDamage());
         }
+
+        // Spawn hit effect
+        if (hitEffectPrefab != null)
+        {
+            Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
+        }
         
         Debug.Log($"{gameObject.name} took {amount} damage. HP: {currentHP}/{maxHP}");
         
@@ -80,20 +91,34 @@ public class FortressBlock : MonoBehaviour
     protected virtual void Die()
     {
         Debug.Log($"{gameObject.name} destroyed!");
+
+        // Spawn coins
+        SpawnCoins();
         
-        // If this is the core, trigger special behavior
-        if (blockType == BlockType.Core)
+        // If this is the core or treasure chest, trigger special behavior
+        if (blockType == BlockType.Core || blockType == BlockType.TreasureChest)
         {
-            TriggerCoreDestruction();
+            TriggerLevelComplete();
         }
         
         // TODO: Add destruction VFX
         Destroy(gameObject);
     }
-    
-    private void TriggerCoreDestruction()
+
+    private void SpawnCoins()
     {
-        Debug.Log("CORE DESTROYED! Level complete!");
+        if (coinPrefab != null && coinDropCount > 0)
+        {
+            for (int i = 0; i < coinDropCount; i++)
+            {
+                Instantiate(coinPrefab, transform.position, Quaternion.identity);
+            }
+        }
+    }
+    
+    private void TriggerLevelComplete()
+    {
+        Debug.Log("OBJECTIVE DESTROYED! Level complete!");
         
         // Notify level manager
         LevelManager levelManager = FindFirstObjectByType<LevelManager>();

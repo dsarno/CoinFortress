@@ -95,7 +95,7 @@ public class CoinController : MonoBehaviour
         // Play collection sound
         if (SoundManager.Instance != null)
         {
-            // SoundManager.Instance.PlayCoinCollect(); // Assuming this exists or use a generic sound
+            SoundManager.Instance.PlayPurchaseSuccess(); // Use purchase success sound as coin collect for now
         }
     }
     
@@ -107,8 +107,14 @@ public class CoinController : MonoBehaviour
             return;
         }
         
-        Vector3 targetPos = mainCamera.ScreenToWorldPoint(targetUI.position);
-        targetPos.z = 0;
+        // Calculate world position of UI element
+        // We need to pass the distance from camera to the object plane (z=0)
+        float distanceToCamera = Mathf.Abs(mainCamera.transform.position.z);
+        Vector3 screenPos = targetUI.position;
+        screenPos.z = distanceToCamera;
+        
+        Vector3 targetPos = mainCamera.ScreenToWorldPoint(screenPos);
+        targetPos.z = 0; // Ensure it stays on the 2D plane
         
         transform.position = Vector3.MoveTowards(transform.position, targetPos, collectionSpeed * Time.deltaTime);
         
