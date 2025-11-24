@@ -47,13 +47,13 @@ public class StoreManager : MonoBehaviour
     private void Start()
     {
         // Setup button listeners
-        buyAmmoPack.onClick.AddListener(BuyAmmoPack);
-        upgradeAmmoTier.onClick.AddListener(UpgradeAmmoTier);
-        upgradeDamage.onClick.AddListener(UpgradeDamage);
-        upgradeFireRate.onClick.AddListener(UpgradeFireRate);
-        unlockShield.onClick.AddListener(UnlockShield);
-        upgradeShieldHP.onClick.AddListener(UpgradeShieldHP);
-        repairShield.onClick.AddListener(RepairShield);
+        if (buyAmmoPack != null) buyAmmoPack.onClick.AddListener(BuyAmmoPack);
+        if (upgradeAmmoTier != null) upgradeAmmoTier.onClick.AddListener(UpgradeAmmoTier);
+        if (upgradeDamage != null) upgradeDamage.onClick.AddListener(UpgradeDamage);
+        if (upgradeFireRate != null) upgradeFireRate.onClick.AddListener(UpgradeFireRate);
+        if (unlockShield != null) unlockShield.onClick.AddListener(UnlockShield);
+        if (upgradeShieldHP != null) upgradeShieldHP.onClick.AddListener(UpgradeShieldHP);
+        if (repairShield != null) repairShield.onClick.AddListener(RepairShield);
         
         // Hide store initially
         if (storePanel != null)
@@ -142,13 +142,13 @@ public class StoreManager : MonoBehaviour
             shieldCurrentText.text = $"Shield: {playerStats.shieldCurrentHP}/{playerStats.shieldMaxHP}";
         
         // Button interactability
-        buyAmmoPack.interactable = playerStats.coins >= ammoPackCost;
-        upgradeAmmoTier.interactable = playerStats.coins >= tierCost && playerStats.ammoTier < 2;
-        upgradeDamage.interactable = playerStats.coins >= damageCost;
-        upgradeFireRate.interactable = playerStats.coins >= fireRateCost;
-        unlockShield.interactable = playerStats.coins >= shieldUnlockCost && !playerStats.shieldUnlocked;
-        upgradeShieldHP.interactable = playerStats.coins >= shieldHPUpgradeCost && playerStats.shieldUnlocked;
-        repairShield.interactable = playerStats.coins >= shieldRepairCost && 
+        if (buyAmmoPack != null) buyAmmoPack.interactable = playerStats.coins >= ammoPackCost;
+        if (upgradeAmmoTier != null) upgradeAmmoTier.interactable = playerStats.coins >= tierCost && playerStats.ammoTier < 2;
+        if (upgradeDamage != null) upgradeDamage.interactable = playerStats.coins >= damageCost;
+        if (upgradeFireRate != null) upgradeFireRate.interactable = playerStats.coins >= fireRateCost;
+        if (unlockShield != null) unlockShield.interactable = playerStats.coins >= shieldUnlockCost && !playerStats.shieldUnlocked;
+        if (upgradeShieldHP != null) upgradeShieldHP.interactable = playerStats.coins >= shieldHPUpgradeCost && playerStats.shieldUnlocked;
+        if (repairShield != null) repairShield.interactable = playerStats.coins >= shieldRepairCost && 
                                      playerStats.shieldUnlocked && 
                                      playerStats.shieldCurrentHP < playerStats.shieldMaxHP;
         

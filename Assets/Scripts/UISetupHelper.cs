@@ -183,7 +183,13 @@ public class UISetupHelper : MonoBehaviour
             {
                 GameObject eventSystem = new GameObject("EventSystem");
                 eventSystem.AddComponent<UnityEngine.EventSystems.EventSystem>();
-                eventSystem.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+                
+                // Use InputSystemUIInputModule for New Input System
+                var inputModule = eventSystem.AddComponent<UnityEngine.InputSystem.UI.InputSystemUIInputModule>();
+                
+                // Assign default actions if possible (requires reference to InputActions asset)
+                // For now, just adding the component is better than adding the wrong one.
+                Debug.Log("Created EventSystem with InputSystemUIInputModule");
             }
         }
         return canvas;

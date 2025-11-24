@@ -72,12 +72,23 @@ public class LevelManager : MonoBehaviour
     
     public void StartFirstLevel()
     {
+        Debug.Log("LevelManager: StartFirstLevel called.");
+
         // Called from main menu "Start Game" button
         if (mainMenuPanel != null)
         {
             mainMenuPanel.SetActive(false);
+            Debug.Log("LevelManager: Main Menu hidden.");
+        }
+        else
+        {
+             Debug.LogWarning("LevelManager: MainMenuPanel reference is null! Trying to find it...");
+             // Last ditch attempt to find it to hide it
+             var panel = GameObject.Find("Main Menu Panel");
+             if (panel != null) panel.SetActive(false);
         }
         
+        // Skip the store for the first level, just start playing
         BeginLevel();
     }
     
