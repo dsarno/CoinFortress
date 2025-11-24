@@ -126,5 +126,13 @@ public class FortressBlock : MonoBehaviour
         {
             levelManager.OnCoreDestroyed(transform.position);
         }
+        else
+        {
+            // Try finding it if instance is null (sometimes happens on reload)
+            if (LevelManager.Instance != null)
+            {
+                LevelManager.Instance.OnCoreDestroyed(transform.position);
+            }
+        }
     }
 }

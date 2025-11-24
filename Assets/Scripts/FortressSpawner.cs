@@ -42,15 +42,18 @@ public class FortressSpawner : MonoBehaviour
             fortressRoot = null;
         }
         
-        // Also check for any existing FortressRoot in scene
-        GameObject existingFortress = GameObject.Find("FortressRoot");
-        if (existingFortress != null)
+        // Also check for any existing FortressRoot in scene (Find ALL of them)
+        GameObject[] existingFortresses = GameObject.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
+        foreach (GameObject go in existingFortresses)
         {
-            if (Application.isPlaying)
-                Destroy(existingFortress);
-            else
-                DestroyImmediate(existingFortress);
-            Debug.Log("Destroyed existing FortressRoot");
+            if (go.name == "FortressRoot")
+            {
+                if (Application.isPlaying)
+                    Destroy(go);
+                else
+                    DestroyImmediate(go);
+                Debug.Log("Destroyed existing FortressRoot");
+            }
         }
         
         // Create fresh fortress root

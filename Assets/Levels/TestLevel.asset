@@ -18,7 +18,7 @@ MonoBehaviour:
   fortressLayout: {fileID: 0}
   fortressSpawnPosition: {x: 12, y: -11}
   backgroundSprite: {fileID: 0}
-  backgroundColor: {r: 0.2, g: 0.2, b: 0.3, a: 1}
+  backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   skyColor: {r: 0.4, g: 0.3, b: 0.5, a: 1}
   difficultyLevel: 1
   startingAmmo: 10

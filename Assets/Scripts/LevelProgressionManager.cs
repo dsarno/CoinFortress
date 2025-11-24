@@ -80,9 +80,16 @@ public class LevelProgressionManager : MonoBehaviour
         }
         
         // Update fortress spawner
-        if (fortressSpawner != null && config.fortressLayout != null)
+        if (fortressSpawner != null)
         {
-            fortressSpawner.layout = config.fortressLayout;
+            if (config.fortressLayout != null)
+            {
+                fortressSpawner.layout = config.fortressLayout;
+            }
+            else
+            {
+                Debug.LogWarning($"Level Config '{config.levelName}' has no Fortress Layout assigned! Using default.");
+            }
             
             // Update spawn position if spawn point exists
             if (fortressSpawner.spawnPoint != null)
@@ -98,7 +105,15 @@ public class LevelProgressionManager : MonoBehaviour
             {
                 backgroundRenderer.sprite = config.backgroundSprite;
             }
-            backgroundRenderer.color = config.backgroundColor;
+            // Only apply color if it's not white (default), otherwise it tints the sprite too dark
+            if (config.backgroundColor != Color.white && config.backgroundColor.a > 0)
+            {
+                backgroundRenderer.color = config.backgroundColor;
+            }
+            else
+            {
+                backgroundRenderer.color = Color.white;
+            }
         }
         
         // Update camera background color

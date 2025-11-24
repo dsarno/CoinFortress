@@ -1,17 +1,18 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using System.Collections;
 
 public class CoinController : MonoBehaviour
 {
     [Header("Physics Settings")]
-    public float minUpForce = 3f;
-    public float maxUpForce = 6f;
-    public float minSideForce = -2f;
-    public float maxSideForce = -5f; // Toss to the left
+    public float minUpForce = 5f;
+    public float maxUpForce = 10f;
+    public float minSideForce = -5f;
+    public float maxSideForce = -12f; // Toss to the left
     public float torqueAmount = 10f;
     
     [Header("Collection Settings")]
-    public float collectionSpeed = 15f;
+    public float collectionSpeed = 40f;
     public float magnetDistance = 2f;
     
     [Header("Visuals")]
@@ -69,10 +70,16 @@ public class CoinController : MonoBehaviour
     
     private void CheckMouseHover()
     {
-        Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        // Use new Input System
+        if (Mouse.current == null) return;
+        
+        Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
+        Vector3 mousePos = mainCamera.ScreenToWorldPoint(new Vector3(mouseScreenPos.x, mouseScreenPos.y, mainCamera.nearClipPlane));
+        mousePos.z = transform.position.z; // Match Z depth for accurate distance check
+        
         float distance = Vector2.Distance(transform.position, mousePos);
         
-        if (distance < 0.5f) // Hover radius
+        if (distance < 1.5f) // Increased hover radius for better feel
         {
             Collect();
         }
@@ -85,8 +92,8 @@ public class CoinController : MonoBehaviour
         isCollected = true;
         rb.simulated = false; // Disable physics
         
-        // Find UI target (Coins Text)
-        GameObject coinsUI = GameObject.Find("Coins Text");
+        // Find UI target (CoinTarget)
+        GameObject coinsUI = GameObject.Find("CoinTarget");
         if (coinsUI != null)
         {
             targetUI = coinsUI.transform;

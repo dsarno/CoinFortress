@@ -110,6 +110,22 @@ public class LevelManager : MonoBehaviour
             Debug.LogWarning("StoreManager is null!");
         }
         
+        // Load level config from progression manager FIRST
+        LevelProgressionManager progressionManager = FindFirstObjectByType<LevelProgressionManager>();
+        if (progressionManager != null)
+        {
+            // Ensure we are loading the correct level index
+            // If currentLevel is 1, we want index 0
+            // But LevelProgressionManager tracks its own index.
+            // Let's trust LevelProgressionManager's current index for now.
+            progressionManager.LoadLevel(progressionManager.GetCurrentLevel());
+            Debug.Log($"Loaded level config for level {currentLevel}");
+        }
+        else
+        {
+            Debug.LogWarning("LevelProgressionManager is null!");
+        }
+        
         // Play level start sound and music
         if (SoundManager.Instance != null)
         {
@@ -141,7 +157,18 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("FortressSpawner is null!");
+            // Try to find it if reference is missing
+            fortressSpawner = FindFirstObjectByType<FortressSpawner>();
+            if (fortressSpawner != null)
+            {
+                fortressSpawner.fortressRoot = null;
+                fortressSpawner.SpawnFortress();
+                Debug.Log("Fortress spawned (found spawner dynamically)");
+            }
+            else
+            {
+                Debug.LogWarning("FortressSpawner is null and could not be found!");
+            }
         }
         
         levelInProgress = true;
@@ -194,7 +221,7 @@ public class LevelManager : MonoBehaviour
             Destroy(fortressRoot);
         }
         
-        // Load next level configuration if LevelProgressionManager exists
+        // Get next level from progression manager
         LevelProgressionManager progressionManager = FindFirstObjectByType<LevelProgressionManager>();
         if (progressionManager != null)
         {

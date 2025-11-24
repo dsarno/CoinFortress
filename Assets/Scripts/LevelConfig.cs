@@ -18,7 +18,7 @@ public class LevelConfig : ScriptableObject
     
     [Header("Visual")]
     public Sprite backgroundSprite;
-    public Color backgroundColor = new Color(0.2f, 0.2f, 0.3f);
+    public Color backgroundColor = Color.white;
     public Color skyColor = new Color(0.4f, 0.3f, 0.5f);
     
     [Header("Difficulty")]
