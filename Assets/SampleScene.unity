@@ -1781,6 +1781,8 @@ MonoBehaviour:
   musicVolume: 0.237
   sfxVolume: 0.746
   uiVolume: 0.751
+  minPitch: 0.602
+  maxPitch: 1.27
 --- !u!114 &307594827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4208,6 +4210,8 @@ MonoBehaviour:
   firePoint: {fileID: 28171531}
   projectileSpeed: 50
   fireForce: 30
+  weakShotSizeMin: 3
+  weakShotSizeMax: 5
 --- !u!1 &1009052344
 GameObject:
   m_ObjectHideFlags: 0
@@ -6802,23 +6806,7 @@ PrefabInstance:
     m_TransformParent: {fileID: 1254431810}
     m_Modifications:
     - target: {fileID: 24120103642197450, guid: a550676279d43445b950ea716e3c1c7e, type: 3}
-      propertyPath: ShapeModule.arc.mode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 24120103642197450, guid: a550676279d43445b950ea716e3c1c7e, type: 3}
-      propertyPath: ShapeModule.arc.spread
-      value: 0.06
-      objectReference: {fileID: 0}
-    - target: {fileID: 24120103642197450, guid: a550676279d43445b950ea716e3c1c7e, type: 3}
-      propertyPath: ShapeModule.m_Position.z
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 24120103642197450, guid: a550676279d43445b950ea716e3c1c7e, type: 3}
-      propertyPath: ShapeModule.radius.value
-      value: 0.48
-      objectReference: {fileID: 0}
-    - target: {fileID: 24120103642197450, guid: a550676279d43445b950ea716e3c1c7e, type: 3}
-      propertyPath: ShapeModule.sphericalDirectionAmount
+      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 962496722680023679, guid: a550676279d43445b950ea716e3c1c7e, type: 3}

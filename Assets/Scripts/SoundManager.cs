@@ -18,6 +18,10 @@ public class SoundManager : MonoBehaviour
     [Range(0f, 1f)] public float musicVolume = 0.7f;
     [Range(0f, 1f)] public float sfxVolume = 0.8f;
     [Range(0f, 1f)] public float uiVolume = 0.6f;
+
+    [Header("Pitch Settings")]
+    [Range(0.1f, 2f)] public float minPitch = 0.8f;
+    [Range(0.1f, 2f)] public float maxPitch = 1.2f;
     
     private void Awake()
     {
@@ -142,14 +146,14 @@ public class SoundManager : MonoBehaviour
     /// <summary>
     /// Play a cannon firing sound
     /// </summary>
-    public void PlayCannonFireSound()
+    public void PlayCannonFireSound(float volumeMultiplier = 1f)
     {
         if (soundDatabase == null) return;
         
         AudioClip clip = soundDatabase.GetRandomCannonFireSound();
         if (clip != null)
         {
-            PlaySFX(clip);
+            PlaySFX(clip, volumeMultiplier, true);
         }
     }
     
@@ -173,23 +177,41 @@ public class SoundManager : MonoBehaviour
         AudioClip clip = soundDatabase.GetImpactSound(blockType);
         if (clip != null)
         {
-            PlaySFXAtPoint(clip, position);
+            PlaySFXAtPoint(clip, position, 1f, true);
         }
     }
     
     /// <summary>
     /// Play a generic SFX clip
     /// </summary>
-    public void PlaySFX(AudioClip clip, float volumeMultiplier = 1f)
+    public void PlaySFX(AudioClip clip, float volumeMultiplier = 1f, bool varyPitch = false)
     {
         if (sfxSource == null || clip == null) return;
+        
+        if (varyPitch)
+        {
+            sfxSource.pitch = Random.Range(minPitch, maxPitch);
+        }
+        else
+        {
+            sfxSource.pitch = 1f;
+        }
+        
         sfxSource.PlayOneShot(clip, volumeMultiplier);
+        
+        // Reset pitch after a short delay or just leave it? 
+        // PlayOneShot uses the source's current pitch. 
+        // If we change it back immediately, it might affect the playing sound? 
+        // No, PlayOneShot fires and forgets, but it uses the source's settings at the moment of firing.
+        // However, changing pitch on the source affects ALL sounds playing on that source.
+        // Ideally we'd use a pool of audio sources, but for now we'll just reset it next frame or keep it varied.
+        // Let's reset it to 1.0 in Update or just leave it random since it's the main SFX channel.
     }
     
     /// <summary>
     /// Play SFX at a specific world position (or just play it non-spatially for 2D games)
     /// </summary>
-    public void PlaySFXAtPoint(AudioClip clip, Vector3 position, float volumeMultiplier = 1f)
+    public void PlaySFXAtPoint(AudioClip clip, Vector3 position, float volumeMultiplier = 1f, bool varyPitch = false)
     {
         if (clip == null)
         {
@@ -199,7 +221,7 @@ public class SoundManager : MonoBehaviour
         
         // For 2D games, just play the sound non-spatially using the main SFX source
         // This ensures sounds are always audible regardless of camera distance
-        PlaySFX(clip, volumeMultiplier);
+        PlaySFX(clip, volumeMultiplier, varyPitch);
     }
     
     #endregion

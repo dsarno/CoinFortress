@@ -13,6 +13,10 @@ public class PlayerCannonController : MonoBehaviour
     public float projectileSpeed = 15f;
     public float fireForce = 10f; // Initial upward force
     
+    [Header("Effect Settings")]
+    public float weakShotSizeMin = 3f;
+    public float weakShotSizeMax = 5f;
+    
     private PlayerStats playerStats;
     private float lastFireTime;
     private float lastWeakFireTime;
@@ -146,7 +150,8 @@ public class PlayerCannonController : MonoBehaviour
         // Spawn fire effect
         if (fireEffectPrefab != null)
         {
-            Instantiate(fireEffectPrefab, firePoint.position, firePoint.rotation);
+            GameObject effect = Instantiate(fireEffectPrefab, firePoint.position, firePoint.rotation);
+            // Normal shot size (default prefab size)
         }
         
         if (projectileScript != null)
@@ -170,10 +175,10 @@ public class PlayerCannonController : MonoBehaviour
         
         lastWeakFireTime = Time.time;
         
-        // Play cannon firing sound
+        // Play cannon firing sound (quieter for weak shot)
         if (SoundManager.Instance != null)
         {
-            SoundManager.Instance.PlayCannonFireSound();
+            SoundManager.Instance.PlayCannonFireSound(0.6f);
         }
         
         // Spawn weak projectile
@@ -183,7 +188,14 @@ public class PlayerCannonController : MonoBehaviour
         // Spawn fire effect
         if (fireEffectPrefab != null)
         {
-            Instantiate(fireEffectPrefab, firePoint.position, firePoint.rotation);
+            GameObject effect = Instantiate(fireEffectPrefab, firePoint.position, firePoint.rotation);
+            ParticleSystem ps = effect.GetComponent<ParticleSystem>();
+            if (ps != null)
+            {
+                var main = ps.main;
+                // Reduce size for weak shot
+                main.startSize = new ParticleSystem.MinMaxCurve(weakShotSizeMin, weakShotSizeMax);
+            }
         }
         
         if (projectileScript != null)

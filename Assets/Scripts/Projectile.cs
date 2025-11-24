@@ -47,6 +47,7 @@ public class Projectile : MonoBehaviour
             // Play impact sound
             if (SoundManager.Instance != null)
             {
+                // Play impact sound with pitch variation
                 SoundManager.Instance.PlayImpactSound(block.blockType, collision.contacts[0].point);
             }
             
