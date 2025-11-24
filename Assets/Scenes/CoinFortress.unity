@@ -504,7 +504,7 @@ MonoBehaviour:
   mainMenuPanel: {fileID: 2524139715666186074}
   currentLevel: 0
   levelInProgress: 0
-  coinPrefab: {fileID: 0}
+  coinPrefab: {fileID: 6839403267698759826, guid: 858b5dd70f83640e5ae67fb4fb935ca7, type: 3}
   coinsPerLevel: 50
   coinFountainDuration: 2
   coinSpawnRate: 0.1
@@ -573,6 +573,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelProgressionManager
   levelSequence:
   - {fileID: 11400000, guid: 474f63971ab09471b9eeaab715e65655, type: 2}
+  - {fileID: 11400000, guid: 6e447b132ca724d699b582da417f5ce1, type: 2}
+  - {fileID: 11400000, guid: b5832d2e549ae4e3c91b11601bd1273f, type: 2}
+  - {fileID: 11400000, guid: 41ca02117c59f40b8b63f5f3803b796d, type: 2}
   randomizeLevels: 0
   currentLevelIndex: 0
   levelManager: {fileID: 307594824}

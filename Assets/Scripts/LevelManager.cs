@@ -72,54 +72,41 @@ public class LevelManager : MonoBehaviour
     
     public void StartFirstLevel()
     {
-        Debug.Log("LevelManager: StartFirstLevel called.");
-
         // Called from main menu "Start Game" button
         if (mainMenuPanel != null)
         {
             mainMenuPanel.SetActive(false);
-            Debug.Log("LevelManager: Main Menu hidden.");
         }
         else
         {
              Debug.LogWarning("LevelManager: MainMenuPanel reference is null! Trying to find it...");
-             // Last ditch attempt to find it to hide it
              var panel = GameObject.Find("Main Menu Panel");
              if (panel != null) panel.SetActive(false);
         }
         
-        // Skip the store for the first level, just start playing
         BeginLevel();
     }
     
     private System.Collections.IEnumerator BeginLevelCoroutine()
     {
-        Debug.Log("BeginLevel() called!");
-        
         // Wait briefly for button click sound to play
         yield return new WaitForSeconds(0.15f);
         
-        // Called when player clicks "Start Level" button in store
+        // Close store if open
         if (storeManager != null)
         {
             storeManager.CloseStore();
-            Debug.Log("Store closed");
         }
         else
         {
             Debug.LogWarning("StoreManager is null!");
         }
         
-        // Load level config from progression manager FIRST
+        // Load level config from progression manager
         LevelProgressionManager progressionManager = FindFirstObjectByType<LevelProgressionManager>();
         if (progressionManager != null)
         {
-            // Ensure we are loading the correct level index
-            // If currentLevel is 1, we want index 0
-            // But LevelProgressionManager tracks its own index.
-            // Let's trust LevelProgressionManager's current index for now.
             progressionManager.LoadLevel(progressionManager.GetCurrentLevel());
-            Debug.Log($"Loaded level config for level {currentLevel}");
         }
         else
         {
@@ -130,7 +117,6 @@ public class LevelManager : MonoBehaviour
         if (SoundManager.Instance != null)
         {
             SoundManager.Instance.PlayLevelStart();
-            // Delay music start slightly so level start sound is heard
             yield return new WaitForSeconds(0.2f);
             SoundManager.Instance.PlayLevelMusic(currentLevel);
         }
@@ -139,31 +125,25 @@ public class LevelManager : MonoBehaviour
         if (playerStats != null)
         {
             playerStats.RefillForNewLevel();
-            Debug.Log($"Ammo refilled to {playerStats.ammo}");
         }
         else
         {
             Debug.LogWarning("PlayerStats is null!");
         }
         
-        // Spawn fortress (it handles clearing internally)
+        // Spawn fortress
         if (fortressSpawner != null)
         {
-            // Clear the fortress root reference so spawner creates a fresh one
             fortressSpawner.fortressRoot = null;
-            
             fortressSpawner.SpawnFortress();
-            Debug.Log("Fortress spawned");
         }
         else
         {
-            // Try to find it if reference is missing
             fortressSpawner = FindFirstObjectByType<FortressSpawner>();
             if (fortressSpawner != null)
             {
                 fortressSpawner.fortressRoot = null;
                 fortressSpawner.SpawnFortress();
-                Debug.Log("Fortress spawned (found spawner dynamically)");
             }
             else
             {
@@ -172,14 +152,12 @@ public class LevelManager : MonoBehaviour
         }
         
         levelInProgress = true;
-        Debug.Log($"Level {currentLevel} started! levelInProgress = {levelInProgress}");
     }
     
     public void OnCoreDestroyed(Vector3 corePosition)
     {
         if (!levelInProgress) return;
         
-        Debug.Log("Core destroyed! Level complete!");
         levelInProgress = false;
         
         // Play level complete sound
@@ -190,9 +168,6 @@ public class LevelManager : MonoBehaviour
         
         // Start coin fountain
         StartCoroutine(SpawnCoinFountain(corePosition));
-        
-        // Wait a bit then open store for next level
-        Invoke(nameof(PrepareNextLevel), coinFountainDuration + 1f);
     }
     
     private System.Collections.IEnumerator SpawnCoinFountain(Vector3 position)
@@ -203,11 +178,25 @@ public class LevelManager : MonoBehaviour
             playerStats.AddCoins(coinsPerLevel);
         }
         
-        Debug.Log($"Coin fountain! +{coinsPerLevel} coins!");
+        for (int i = 0; i < coinsPerLevel; i++)
+        {
+            if (coinPrefab != null)
+            {
+                GameObject coin = Instantiate(coinPrefab, position, Quaternion.identity);
+                CoinController cc = coin.GetComponent<CoinController>();
+                if (cc != null)
+                {
+                    cc.TriggerVisualEffect(1.0f); // Wait 1 second before starting fade
+                    cc.givesCoins = false; // Already awarded by LevelManager
+                }
+            }
+            yield return new WaitForSeconds(coinSpawnRate);
+        }
+
+        // Wait 5 seconds after last coin spawned before showing store
+        yield return new WaitForSeconds(5f);
         
-        // TODO: Spawn actual coin particles/objects
-        // For now, just wait
-        yield return new WaitForSeconds(coinFountainDuration);
+        PrepareNextLevel();
     }
     
     private void PrepareNextLevel()

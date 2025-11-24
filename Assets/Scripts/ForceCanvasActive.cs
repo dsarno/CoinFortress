@@ -3,22 +3,14 @@ using System.Collections;
 
 public class ForceCanvasActive : MonoBehaviour
 {
-    private void Awake()
-    {
-        Debug.Log($"ForceCanvasActive: Awake on {gameObject.name}");
-    }
-
     private void Start()
     {
-        Debug.Log($"ForceCanvasActive: Start on {gameObject.name}");
         StartCoroutine(KeepActive());
     }
 
     private IEnumerator KeepActive()
     {
         // For the first 2 seconds, force this object and its children to be active
-        // and force the canvas to render
-        
         Canvas c = GetComponent<Canvas>();
         
         for (int i = 0; i < 60; i++) // ~1-2 seconds
@@ -37,8 +29,6 @@ public class ForceCanvasActive : MonoBehaviour
             
             yield return null;
         }
-        
-        Debug.Log("ForceCanvasActive: Finished enforcement.");
     }
 }
 

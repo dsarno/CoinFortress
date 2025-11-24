@@ -7,25 +7,12 @@ public class MainMenuController : MonoBehaviour
     public GameObject mainMenuPanel;
     public Button startGameButton;
     
-    private void Awake()
-    {
-        Debug.Log($"MainMenuController: Awake called on {gameObject.name}. ActiveSelf: {gameObject.activeSelf}");
-    }
-
-    private void OnEnable()
-    {
-        Debug.Log($"MainMenuController: OnEnable called on {gameObject.name}");
-    }
-
     private void Start()
     {
-        Debug.Log("MainMenuController: Start called");
-
         // Robustness check: Find references if missing
         if (mainMenuPanel == null)
         {
             Debug.LogWarning("MainMenuController: mainMenuPanel reference is missing! Attempting to find by name...");
-            // Try to find by name assuming standard hierarchy
             Transform canvasTransform = FindFirstObjectByType<Canvas>()?.transform;
             if (canvasTransform != null)
             {
@@ -43,9 +30,8 @@ public class MainMenuController : MonoBehaviour
         // Setup button listener
         if (startGameButton != null)
         {
-            startGameButton.onClick.RemoveAllListeners(); // Prevent double subscription
+            startGameButton.onClick.RemoveAllListeners();
             startGameButton.onClick.AddListener(OnStartGameClicked);
-            Debug.Log($"MainMenuController: Subscribed to button {startGameButton.name}");
         }
         else
         {
@@ -56,7 +42,6 @@ public class MainMenuController : MonoBehaviour
         if (mainMenuPanel != null)
         {
             mainMenuPanel.SetActive(true);
-            Debug.Log("MainMenuController: Set Main Menu Panel to Active");
         }
         else
         {
@@ -66,8 +51,6 @@ public class MainMenuController : MonoBehaviour
     
     private void OnStartGameClicked()
     {
-        Debug.Log("Start Game button clicked!");
-        
         // Hide main menu
         if (mainMenuPanel != null)
         {

@@ -22,7 +22,6 @@ public class CrackEffect : MonoBehaviour
     // Cached
     private SpriteRenderer blockSR;          // the block's own sprite renderer
     private MaterialPropertyBlock mpb;
-    private bool debugOnce;                  // one-time debug flag
 
     private void Awake()
     {
@@ -113,20 +112,6 @@ public class CrackEffect : MonoBehaviour
         // Reveal amount
         mpb.SetFloat(RevealID, Mathf.Clamp01(damagePercent));
         blockSR.SetPropertyBlock(mpb);
-        
-        // Debug log once per object
-        if (!debugOnce && damagePercent > 0f)
-        {
-            Debug.Log($"[CrackEffect:{name}] _Reveal={damagePercent:F2}, CrackTex={mpb.GetTexture(CrackTexID)?.name ?? "null"}");
-            debugOnce = true;
-        }
-        
-        // TEMPORARY: Fallback to sharedMaterial to isolate MPB vs shader Reference issues
-        // Remove this after confirming shader works correctly
-        if (blockSR.sharedMaterial != null)
-        {
-            blockSR.sharedMaterial.SetFloat("_Reveal", Mathf.Clamp01(damagePercent));
-        }
     }
 
     // Hide/reset cracks (e.g., on repair)

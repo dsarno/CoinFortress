@@ -30,8 +30,6 @@ public class FortressSpawner : MonoBehaviour
             return;
         }
         
-        Debug.Log($"SpawnFortress called - Layout: {layout.name} ({layout.width}x{layout.height})");
-        
         // Always destroy and recreate fortress root for clean spawning
         if (fortressRoot != null)
         {
@@ -52,7 +50,6 @@ public class FortressSpawner : MonoBehaviour
                     Destroy(go);
                 else
                     DestroyImmediate(go);
-                Debug.Log("Destroyed existing FortressRoot");
             }
         }
         
@@ -116,7 +113,6 @@ public class FortressSpawner : MonoBehaviour
             }
         }
         
-        Debug.Log($"Spawned fortress: {layout.width}x{layout.height} grid");
     }
     
     public void ClearFortress()

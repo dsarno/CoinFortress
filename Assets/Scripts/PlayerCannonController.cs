@@ -162,7 +162,6 @@ public class PlayerCannonController : MonoBehaviour
             projectileScript.Initialize(direction, projectileSpeed, damage, playerStats.ammoTier);
         }
         
-        Debug.Log($"Fired normal shot! Ammo remaining: {playerStats.ammo}");
     }
     
     private void FireWeakShot()
@@ -211,7 +210,6 @@ public class PlayerCannonController : MonoBehaviour
             }
         }
         
-        Debug.Log("Fired weak fallback shot! (Out of ammo)");
     }
     
     private int GetProjectileDamage()

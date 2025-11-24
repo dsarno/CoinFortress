@@ -58,7 +58,6 @@ public class FortressBlock : MonoBehaviour
         if (crackEffect != null)
         {
             crackEffect.UpdateCrackProgress(damagePercent);
-            Debug.Log($"[{gameObject.name}] Crack _Reveal set to {damagePercent:F2} (HP: {currentHP}/{maxHP})");
         }
         
         // Visual feedback
@@ -72,8 +71,6 @@ public class FortressBlock : MonoBehaviour
         {
             Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
         }
-        
-        Debug.Log($"{gameObject.name} took {amount} damage. HP: {currentHP}/{maxHP}");
         
         if (currentHP <= 0)
         {
@@ -90,8 +87,6 @@ public class FortressBlock : MonoBehaviour
     
     protected virtual void Die()
     {
-        Debug.Log($"{gameObject.name} destroyed!");
-
         // Spawn coins
         SpawnCoins();
         
@@ -101,7 +96,6 @@ public class FortressBlock : MonoBehaviour
             TriggerLevelComplete();
         }
         
-        // TODO: Add destruction VFX
         Destroy(gameObject);
     }
 
@@ -118,21 +112,15 @@ public class FortressBlock : MonoBehaviour
     
     private void TriggerLevelComplete()
     {
-        Debug.Log("OBJECTIVE DESTROYED! Level complete!");
-        
         // Notify level manager
         LevelManager levelManager = FindFirstObjectByType<LevelManager>();
         if (levelManager != null)
         {
             levelManager.OnCoreDestroyed(transform.position);
         }
-        else
+        else if (LevelManager.Instance != null)
         {
-            // Try finding it if instance is null (sometimes happens on reload)
-            if (LevelManager.Instance != null)
-            {
-                LevelManager.Instance.OnCoreDestroyed(transform.position);
-            }
+            LevelManager.Instance.OnCoreDestroyed(transform.position);
         }
     }
 }

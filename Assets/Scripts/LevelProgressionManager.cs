@@ -70,8 +70,6 @@ public class LevelProgressionManager : MonoBehaviour
             return;
         }
         
-        Debug.Log($"Loading level: {config.levelName} (#{config.levelNumber})");
-        
         // Update level manager
         if (levelManager != null)
         {
@@ -127,7 +125,6 @@ public class LevelProgressionManager : MonoBehaviour
         
         // TODO: Spawn enemies based on config.enemySpawns
         
-        Debug.Log($"Level loaded! Difficulty: {config.difficultyLevel}, Ammo: {config.startingAmmo}");
     }
     
     private void ApplyDifficultySettings(LevelConfig config)

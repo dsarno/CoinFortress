@@ -15,7 +15,7 @@ MonoBehaviour:
   levelNumber: 3
   levelName: Dragon's Keep
   levelDescription: Face the mighty fortress with a boss turret!
-  fortressLayout: {fileID: 11400000, guid: 299b7c2dc0b914cddadce04eb6c0ecea, type: 2}
+  fortressLayout: {fileID: 11400000, guid: 10400a35115b441f88336a9089e5c5e0, type: 2}
   fortressSpawnPosition: {x: 12, y: -11}
   backgroundSprite: {fileID: 0}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}

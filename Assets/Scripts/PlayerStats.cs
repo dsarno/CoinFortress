@@ -106,7 +106,6 @@ public class PlayerStats : MonoBehaviour
     public void AddCoins(int amount)
     {
         coins += amount;
-        Debug.Log($"Collected {amount} coins! Total: {coins}");
         onCoinsChanged?.Invoke();
     }
     

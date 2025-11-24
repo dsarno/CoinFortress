@@ -21,11 +21,18 @@ public class CoinController : MonoBehaviour
     public Sprite backSprite;
     public float flipInterval = 0.1f;
     
+    [Header("Fountain Settings")]
+    public bool isVisual = false;
+    public bool givesCoins = true;
+    public float autoFadeDelay = -1f;
+    
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private bool isCollected = false;
     private Transform targetUI;
     private Camera mainCamera;
+    private float currentMoveSpeed;
+    private float acceleration = 50f;
     
     private void Awake()
     {
@@ -43,6 +50,20 @@ public class CoinController : MonoBehaviour
         rb.AddTorque(Random.Range(-torqueAmount, torqueAmount));
         
         StartCoroutine(AnimateFlip());
+
+        if (autoFadeDelay > 0 && !IsInvoking(nameof(BeginFadeOut)))
+        {
+            Invoke(nameof(BeginFadeOut), autoFadeDelay);
+        }
+    }
+
+    public void TriggerVisualEffect(float delay)
+    {
+        isVisual = true;
+        autoFadeDelay = delay;
+        
+        CancelInvoke(nameof(BeginFadeOut));
+        Invoke(nameof(BeginFadeOut), autoFadeDelay);
     }
     
     private void Update()
@@ -54,6 +75,31 @@ public class CoinController : MonoBehaviour
         }
         
         CheckMouseHover();
+    }
+
+    private void BeginFadeOut()
+    {
+        StartCoroutine(FadeOutRoutine(1.5f));
+    }
+
+    private IEnumerator FadeOutRoutine(float duration)
+    {
+        float startAlpha = spriteRenderer.color.a;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float newAlpha = Mathf.Lerp(startAlpha, 0f, elapsed / duration);
+            if (spriteRenderer != null)
+            {
+                Color c = spriteRenderer.color;
+                c.a = newAlpha;
+                spriteRenderer.color = c;
+            }
+            yield return null;
+        }
+        Destroy(gameObject);
     }
     
     private IEnumerator AnimateFlip()
@@ -92,6 +138,18 @@ public class CoinController : MonoBehaviour
         isCollected = true;
         rb.simulated = false; // Disable physics
         
+        // Stop any fade out
+        CancelInvoke(nameof(BeginFadeOut));
+        StopAllCoroutines(); // Stops fade and flip
+        
+        // Reset alpha
+        if (spriteRenderer != null)
+        {
+            Color c = spriteRenderer.color;
+            c.a = 1f;
+            spriteRenderer.color = c;
+        }
+        
         // Find UI target (CoinTarget)
         GameObject coinsUI = GameObject.Find("CoinTarget");
         if (coinsUI != null)
@@ -124,20 +182,26 @@ public class CoinController : MonoBehaviour
         Vector3 targetPos = mainCamera.ScreenToWorldPoint(screenPos);
         targetPos.z = 0; // Ensure it stays on the 2D plane
         
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, collectionSpeed * Time.deltaTime);
+        // Accelerate
+        currentMoveSpeed += acceleration * Time.deltaTime;
+        
+        transform.position = Vector3.MoveTowards(transform.position, targetPos, (collectionSpeed + currentMoveSpeed) * Time.deltaTime);
         
         if (Vector3.Distance(transform.position, targetPos) < 0.5f)
         {
             // Add coin to player stats
-            PlayerStats playerStats = FindFirstObjectByType<PlayerStats>();
-            if (playerStats != null)
+            if (givesCoins)
             {
-                playerStats.AddCoins(1);
-                
-                // Play collection sound (cha-ching) when it hits the target
-                if (SoundManager.Instance != null)
+                PlayerStats playerStats = FindFirstObjectByType<PlayerStats>();
+                if (playerStats != null)
                 {
-                    SoundManager.Instance.PlayPurchaseSuccess();
+                    playerStats.AddCoins(1);
+                    
+                    // Play collection sound (cha-ching) when it hits the target
+                    if (SoundManager.Instance != null)
+                    {
+                        SoundManager.Instance.PlayPurchaseSuccess();
+                    }
                 }
             }
             
