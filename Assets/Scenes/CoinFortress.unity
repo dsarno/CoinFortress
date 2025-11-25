@@ -505,7 +505,7 @@ MonoBehaviour:
   currentLevel: 0
   levelInProgress: 0
   coinPrefab: {fileID: 6839403267698759826, guid: 858b5dd70f83640e5ae67fb4fb935ca7, type: 3}
-  coinsPerLevel: 50
+  coinsPerLevel: 30
   coinFountainDuration: 2
   coinSpawnRate: 0.1
 --- !u!114 &307594825
@@ -2233,6 +2233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCannonController
   projectilePrefab: {fileID: 4634355281955108549, guid: 370977e770a8a43b2930535977cfb38e, type: 3}
+  powerUpProjectilePrefab: {fileID: 4634355281955108549, guid: a151a05404d614f2ba43bcbe5d452387, type: 3}
   fireEffectPrefab: {fileID: 7224343591069483402, guid: a550676279d43445b950ea716e3c1c7e, type: 3}
   firePoint: {fileID: 28171531}
   projectileSpeed: 50

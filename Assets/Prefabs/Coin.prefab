@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1076171117012744943}
   - component: {fileID: 8736400024462622093}
   - component: {fileID: 2146716613640026422}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Coin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,3 +179,6 @@ MonoBehaviour:
   frontSprite: {fileID: 2309077333115521486, guid: 2420e6bfd9047469b9244d6c28df6cde, type: 3}
   backSprite: {fileID: 2319843606020299301, guid: 25aa48bd308ad44c1aa828c3bd4efc2a, type: 3}
   flipInterval: 0.1
+  isVisual: 0
+  givesCoins: 1
+  autoFadeDelay: -1

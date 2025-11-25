@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 6839403267698759826, guid: 858b5dd70f83640e5ae67fb4fb935ca7, type: 3}
     - target: {fileID: 1569645442382184612, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: coinDropCount
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1569645442382184612, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: hitEffectPrefab

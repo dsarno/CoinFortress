@@ -6,6 +6,7 @@ public class PlayerCannonController : MonoBehaviour
 {
     [Header("References")]
     public GameObject projectilePrefab;
+    public GameObject powerUpProjectilePrefab;
     public GameObject fireEffectPrefab;
     public Transform firePoint;
     
@@ -143,8 +144,18 @@ public class PlayerCannonController : MonoBehaviour
             SoundManager.Instance.PlayCannonFireSound();
         }
         
+        // Determine prefab and speed based on upgrades
+        GameObject prefabToUse = projectilePrefab;
+        float speedToUse = projectileSpeed;
+        
+        if (playerStats.damageLevel > 1 && powerUpProjectilePrefab != null)
+        {
+            prefabToUse = powerUpProjectilePrefab;
+            speedToUse = projectileSpeed * 1.5f;
+        }
+        
         // Spawn projectile
-        GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+        GameObject projectile = Instantiate(prefabToUse, firePoint.position, firePoint.rotation);
         Projectile projectileScript = projectile.GetComponent<Projectile>();
 
         // Spawn fire effect
@@ -159,7 +170,7 @@ public class PlayerCannonController : MonoBehaviour
             // Fire in the direction the cannon is pointing
             Vector2 direction = firePoint.right;
             int damage = GetProjectileDamage();
-            projectileScript.Initialize(direction, projectileSpeed, damage, playerStats.ammoTier);
+            projectileScript.Initialize(direction, speedToUse, damage, playerStats.ammoTier);
         }
         
     }

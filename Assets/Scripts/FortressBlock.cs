@@ -101,11 +101,17 @@ public class FortressBlock : MonoBehaviour
 
     private void SpawnCoins()
     {
-        if (coinPrefab != null && coinDropCount > 0)
+        GameObject prefabToSpawn = coinPrefab;
+        if (prefabToSpawn == null && LevelManager.Instance != null)
+        {
+            prefabToSpawn = LevelManager.Instance.coinPrefab;
+        }
+
+        if (prefabToSpawn != null && coinDropCount > 0)
         {
             for (int i = 0; i < coinDropCount; i++)
             {
-                Instantiate(coinPrefab, transform.position, Quaternion.identity);
+                Instantiate(prefabToSpawn, transform.position, Quaternion.identity);
             }
         }
     }
