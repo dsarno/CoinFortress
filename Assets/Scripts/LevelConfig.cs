@@ -15,9 +15,11 @@ public class LevelConfig : ScriptableObject
     [Header("Fortress")]
     public FortressLayout fortressLayout;
     public Vector2 fortressSpawnPosition = new Vector2(12, -11);
+    public Vector3 playerSpawnPosition = new Vector3(-12, -3, 0);
     
     [Header("Visual")]
     public Sprite backgroundSprite;
+    public GameObject backgroundPrefab;
     public Color backgroundColor = Color.white;
     public Color skyColor = new Color(0.4f, 0.3f, 0.5f);
     

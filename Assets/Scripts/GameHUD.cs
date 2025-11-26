@@ -105,10 +105,19 @@ public class GameHUD : MonoBehaviour
         // Timer
         if (timerText != null && LevelManager.Instance != null)
         {
-            // Always show timer if level is in progress and has time limit
-            // OR if we are in editor mode and just want to see it (optional)
-            if (LevelManager.Instance.levelInProgress && LevelManager.Instance.hasTimeLimit)
+            if (LevelManager.Instance.isGatheringPhase)
             {
+                // Show gathering countdown
+                float timeLeft = Mathf.Max(0, LevelManager.Instance.gatheringTimer);
+                timerText.text = $"GATHER: {timeLeft:0.0}";
+                timerText.color = Color.yellow;
+                
+                if (!timerText.gameObject.activeSelf) 
+                    timerText.gameObject.SetActive(true);
+            }
+            else if (LevelManager.Instance.levelInProgress && LevelManager.Instance.hasTimeLimit)
+            {
+                // Show level timer
                 float timeLeft = Mathf.Max(0, LevelManager.Instance.timeLimit - LevelManager.Instance.timeElapsed);
                 int minutes = Mathf.FloorToInt(timeLeft / 60F);
                 int seconds = Mathf.FloorToInt(timeLeft - minutes * 60);

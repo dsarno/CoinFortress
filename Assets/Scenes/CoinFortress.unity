@@ -505,11 +505,14 @@ MonoBehaviour:
   gameOverPanel: {fileID: 1970840941}
   currentLevel: 0
   levelInProgress: 0
+  isGatheringPhase: 0
+  gatheringTime: 4
+  gatheringTimer: 0
   hasTimeLimit: 0
   timeLimit: 30
   timeElapsed: 0
   coinPrefab: {fileID: 6839403267698759826, guid: 858b5dd70f83640e5ae67fb4fb935ca7, type: 3}
-  coinsPerLevel: 30
+  coinsPerLevel: 0
   coinFountainDuration: 2
   coinSpawnRate: 0.1
 --- !u!114 &307594825
@@ -1037,6 +1040,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d792d2a607d8647ccb0c91439e4f7ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonSounds
+  suppressDefaultClickSound: 0
 --- !u!114 &557376067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2206,8 +2210,6 @@ GameObject:
   - component: {fileID: 1006563614}
   - component: {fileID: 1006563613}
   - component: {fileID: 1006563612}
-  - component: {fileID: 1006563611}
-  - component: {fileID: 1006563610}
   m_Layer: 0
   m_Name: Cannon Cost
   m_TagString: Untagged
@@ -2236,35 +2238,6 @@ RectTransform:
   m_AnchoredPosition: {x: 329.90002, y: -5.686989}
   m_SizeDelta: {x: 207.451, y: 94.324}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1006563610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1006563608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d792d2a607d8647ccb0c91439e4f7ee6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSounds
---- !u!114 &1006563611
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1006563608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
 --- !u!114 &1006563612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2627,6 +2600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d792d2a607d8647ccb0c91439e4f7ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonSounds
+  suppressDefaultClickSound: 0
 --- !u!114 &1111169247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2892,8 +2866,6 @@ GameObject:
   - component: {fileID: 1238866692}
   - component: {fileID: 1238866691}
   - component: {fileID: 1238866690}
-  - component: {fileID: 1238866689}
-  - component: {fileID: 1238866688}
   m_Layer: 0
   m_Name: Balls Cost
   m_TagString: Untagged
@@ -2922,35 +2894,6 @@ RectTransform:
   m_AnchoredPosition: {x: 329.90002, y: -0.0009937286}
   m_SizeDelta: {x: 207.451, y: 94.324}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1238866688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1238866686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d792d2a607d8647ccb0c91439e4f7ee6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSounds
---- !u!114 &1238866689
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1238866686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
 --- !u!114 &1238866690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3081,7 +3024,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   damage: 1
   fireCooldown: 0.5
-  ammo: 10
+  ammo: 5
   maxAmmo: 10
   ammoTier: 0
   weakShotDamage: 1
@@ -3158,6 +3101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d792d2a607d8647ccb0c91439e4f7ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonSounds
+  suppressDefaultClickSound: 0
 --- !u!114 &1277629288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4074,8 +4018,6 @@ GameObject:
   - component: {fileID: 1903330748}
   - component: {fileID: 1903330747}
   - component: {fileID: 1903330746}
-  - component: {fileID: 1903330745}
-  - component: {fileID: 1903330744}
   m_Layer: 0
   m_Name: Ammo Cost
   m_TagString: Untagged
@@ -4104,35 +4046,6 @@ RectTransform:
   m_AnchoredPosition: {x: 329.8999, y: 0.004928589}
   m_SizeDelta: {x: 207.451, y: 94.324}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1903330744
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1903330742}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d792d2a607d8647ccb0c91439e4f7ee6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSounds
---- !u!114 &1903330745
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1903330742}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
 --- !u!114 &1903330746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4469,7 +4382,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7210063426958061845, guid: 2ffb07bef25464753af8d5d4e42e49bb, type: 3}
+  m_Sprite: {fileID: -8946535748102167902, guid: bd58c671c00354ebebeb8d8037f4c15d, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -5205,6 +5118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d792d2a607d8647ccb0c91439e4f7ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonSounds
+  suppressDefaultClickSound: 0
 --- !u!1 &5558385242489163589
 GameObject:
   m_ObjectHideFlags: 0
@@ -5270,6 +5184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d792d2a607d8647ccb0c91439e4f7ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtonSounds
+  suppressDefaultClickSound: 0
 --- !u!222 &6248447723862653881
 CanvasRenderer:
   m_ObjectHideFlags: 0

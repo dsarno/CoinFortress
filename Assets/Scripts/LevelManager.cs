@@ -16,6 +16,9 @@ public class LevelManager : MonoBehaviour
     [Header("Level Settings")]
     public int currentLevel = 1;
     public bool levelInProgress = false;
+    public bool isGatheringPhase = false;
+    public float gatheringTime = 5f;
+    public float gatheringTimer = 0f;
     public bool hasTimeLimit = false;
     public float timeLimit = 30f;
     public float timeElapsed = 0f;
@@ -27,6 +30,7 @@ public class LevelManager : MonoBehaviour
     public float coinSpawnRate = 0.1f;
     
     private int lastSecondTicked = -1;
+    private Coroutine coinFountainCoroutine;
     
     private void Awake()
     {
@@ -155,6 +159,15 @@ public class LevelManager : MonoBehaviour
             if (timeElapsed >= timeLimit)
             {
                 LevelFailed();
+            }
+        }
+        else if (isGatheringPhase)
+        {
+            gatheringTimer -= Time.deltaTime;
+            if (gatheringTimer <= 0f)
+            {
+                isGatheringPhase = false;
+                PrepareNextLevel();
             }
         }
     }
@@ -294,6 +307,7 @@ public class LevelManager : MonoBehaviour
         }
         
         levelInProgress = true;
+        isGatheringPhase = false;
     }
     
     public void OnCoreDestroyed(Vector3 corePosition)
@@ -301,6 +315,8 @@ public class LevelManager : MonoBehaviour
         if (!levelInProgress) return;
         
         levelInProgress = false;
+        isGatheringPhase = true;
+        gatheringTimer = gatheringTime;
         
         // Play level complete sound
         if (SoundManager.Instance != null)
@@ -309,19 +325,13 @@ public class LevelManager : MonoBehaviour
         }
         
         // Start coin fountain
-        StartCoroutine(SpawnCoinFountain(corePosition));
-        
-        // Open store after 2 seconds
-        Invoke(nameof(PrepareNextLevel), 2.0f);
+        if (coinFountainCoroutine != null) StopCoroutine(coinFountainCoroutine);
+        coinFountainCoroutine = StartCoroutine(SpawnCoinFountain(corePosition));
     }
     
     private System.Collections.IEnumerator SpawnCoinFountain(Vector3 position)
     {
-        // Award coins directly for now (can add coin pickup objects later)
-        if (playerStats != null)
-        {
-            playerStats.AddCoins(coinsPerLevel);
-        }
+        // Removed automatic coin award. Coins must be collected physically.
         
         for (int i = 0; i < coinsPerLevel; i++)
         {
@@ -331,8 +341,10 @@ public class LevelManager : MonoBehaviour
                 CoinController cc = coin.GetComponent<CoinController>();
                 if (cc != null)
                 {
-                    cc.TriggerVisualEffect(1.0f); // Wait 1 second before starting fade
-                    cc.givesCoins = false; // Already awarded by LevelManager
+                    // Coins are now interactive and give money when collected
+                    cc.givesCoins = true; 
+                    // Auto-fade after a longer delay if not collected
+                    cc.TriggerVisualEffect(3.0f); 
                 }
             }
             yield return new WaitForSeconds(coinSpawnRate);
@@ -342,6 +354,13 @@ public class LevelManager : MonoBehaviour
     private void PrepareNextLevel()
     {
         currentLevel++;
+        
+        // Stop spawning new coins
+        if (coinFountainCoroutine != null)
+        {
+            StopCoroutine(coinFountainCoroutine);
+            coinFountainCoroutine = null;
+        }
         
         // Cleanup remaining coins
         CoinController[] coins = FindObjectsByType<CoinController>(FindObjectsSortMode.None);

@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1569645442382184612, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: maxHP
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1569645442382184612, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: blockType

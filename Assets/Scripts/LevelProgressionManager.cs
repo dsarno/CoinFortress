@@ -145,7 +145,22 @@ public class LevelProgressionManager : MonoBehaviour
         }
         
         // Update background
-        if (backgroundRenderer != null)
+        if (config.backgroundPrefab != null)
+        {
+            // Destroy old background if it exists (assuming it's a child of a container or we track it)
+            // For now, let's assume we replace the object with the SpriteRenderer
+            if (backgroundRenderer != null)
+            {
+                Destroy(backgroundRenderer.gameObject);
+                backgroundRenderer = null;
+            }
+            
+            // Instantiate new background
+            GameObject bgObject = Instantiate(config.backgroundPrefab, Vector3.zero, Quaternion.identity);
+            bgObject.name = "Background";
+            backgroundRenderer = bgObject.GetComponent<SpriteRenderer>();
+        }
+        else if (backgroundRenderer != null)
         {
             if (config.backgroundSprite != null)
             {
@@ -166,6 +181,13 @@ public class LevelProgressionManager : MonoBehaviour
         if (mainCamera != null)
         {
             mainCamera.backgroundColor = config.skyColor;
+        }
+
+        // Update Player Position
+        GameObject player = GameObject.Find("Player");
+        if (player != null)
+        {
+            player.transform.position = config.playerSpawnPosition;
         }
         
         // Apply difficulty settings

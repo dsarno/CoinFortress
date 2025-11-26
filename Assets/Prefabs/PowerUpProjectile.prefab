@@ -144,8 +144,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
   damage: 3
-  baseSpeed: 30
-  upgradeCost: 50
+  baseSpeed: 32
+  upgradeCost: 35
   splashRadius: 4
   fortressLayerMask:
     serializedVersion: 2

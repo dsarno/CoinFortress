@@ -9,6 +9,12 @@ public class MainMenuController : MonoBehaviour
     
     private void Start()
     {
+        // Play intro music
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayIntroMusic();
+        }
+
         // Robustness check: Find references if missing
         if (mainMenuPanel == null)
         {
@@ -51,11 +57,24 @@ public class MainMenuController : MonoBehaviour
     
     private void OnStartGameClicked()
     {
+        StartCoroutine(StartGameSequence());
+    }
+
+    private System.Collections.IEnumerator StartGameSequence()
+    {
+        // Fade out music
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.FadeOutMusic(1.0f);
+        }
+
         // Hide main menu
         if (mainMenuPanel != null)
         {
             mainMenuPanel.SetActive(false);
         }
+
+        yield return new WaitForSeconds(1.0f);
         
         // Find and start level via LevelManager
         LevelManager levelManager = FindFirstObjectByType<LevelManager>();

@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5df062d6454334db28dcc56a5d14f1f0, type: 3}
+  m_Name: Level_06
+  m_EditorClassIdentifier: Assembly-CSharp::LevelConfig
+  levelNumber: 3
+  levelName: Dragon's Keep
+  levelDescription: Face the mighty fortress with a boss turret!
+  fortressLayout: {fileID: 11400000, guid: 10400a35115b441f88336a9089e5c5e0, type: 2}
+  fortressSpawnPosition: {x: 12, y: -11}
+  backgroundSprite: {fileID: 0}
+  backgroundColor: {r: 1, g: 1, b: 1, a: 1}
+  skyColor: {r: 0.4, g: 0.3, b: 0.5, a: 1}
+  difficultyLevel: 5
+  startingAmmo: 12
+  enemyFireRate: 1.5
+  enableEnemyTurrets: 1
+  coinsOnComplete: 100
+  bonusCoinsForPerfect: 75
+  enemySpawns:
+  - enemyType: 3
+    spawnPosition: {x: 0, y: 10}
+    fireRate: 1
+    health: 10
+    damage: 2
+    moves: 0
+    moveStart: {x: 0, y: 0}
+    moveEnd: {x: 0, y: 0}
+    moveSpeed: 2
+  - enemyType: 0
+    spawnPosition: {x: 8, y: 3}
+    fireRate: 2
+    health: 3
+    damage: 1
+    moves: 0
+    moveStart: {x: 0, y: 0}
+    moveEnd: {x: 0, y: 0}
+    moveSpeed: 2
+  - enemyType: 0
+    spawnPosition: {x: -8, y: 3}
+    fireRate: 2
+    health: 3
+    damage: 1
+    moves: 0
+    moveStart: {x: 0, y: 0}
+    moveEnd: {x: 0, y: 0}
+    moveSpeed: 2
+  hasGravity: 1
+  windForce: 1
+  hasTimeLimit: 1
+  timeLimitSeconds: 30

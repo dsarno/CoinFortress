@@ -211,7 +211,8 @@ public class PlayerCannonController : MonoBehaviour
             Vector2 direction = firePoint.right;
             // Weak shot uses specific weak damage (usually 1)
             // Pass -1 for speed to use the prefab's configured speed
-            projectileScript.Initialize(direction, -1f, playerStats.weakShotDamage, 0);
+            // Pass -1 for damage to use the prefab's configured damage
+            projectileScript.Initialize(direction, -1f, -1, 0);
         }
     }
     

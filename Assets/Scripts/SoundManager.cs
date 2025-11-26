@@ -96,12 +96,24 @@ public class SoundManager : MonoBehaviour
     {
         if (musicSource == null || clip == null) return;
         
+        // Stop any active fade out
+        StopAllCoroutines();
+        musicSource.volume = musicVolume * masterVolume;
+        
         if (musicSource.clip == clip && musicSource.isPlaying)
             return;
         
         musicSource.clip = clip;
         musicSource.loop = loop;
         musicSource.Play();
+    }
+
+    public void PlayIntroMusic()
+    {
+        if (soundDatabase != null && soundDatabase.uiSounds != null && soundDatabase.uiSounds.introMusic != null)
+        {
+            PlayMusic(soundDatabase.uiSounds.introMusic);
+        }
     }
     
     /// <summary>

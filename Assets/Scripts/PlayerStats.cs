@@ -14,7 +14,7 @@ public class PlayerStats : MonoBehaviour
     public int ammoTier = 0; // 0 = Standard, 1 = Heavy, 2 = Explosive
     
     [Header("Weak Fallback Shot")]
-    public int weakShotDamage = 1;
+    // public int weakShotDamage = 1; // Deprecated, now defined in WeakProjectile prefab
     public float weakShotCooldown = 2f;
     
     [Header("Health")]

@@ -21,7 +21,13 @@ MonoBehaviour:
     musicClip: {fileID: 8300000, guid: bc639e00d53b04fb88ba7c253e1f1c01, type: 3}
   - trackName: Fortress Break
     levelNumber: 3
+    musicClip: {fileID: 8300000, guid: ff9f1df0cc05a4b7ea69c831eeedb8fc, type: 3}
+  - trackName: Fortress Break
+    levelNumber: 4
     musicClip: {fileID: 8300000, guid: 27c53fc21c90a4a84b2e8b17e6b0e49d, type: 3}
+  - trackName: Fortress Break
+    levelNumber: 5
+    musicClip: {fileID: 8300000, guid: 76a4fc3ab869348efb92081988b6bc28, type: 3}
   cannonFiringSounds:
   - {fileID: 8300000, guid: 9b87ce98be07146f4a20b35cd843698b, type: 3}
   - {fileID: 8300000, guid: 4bcefcaf39fd04cabad924ec3504c924, type: 3}
@@ -46,7 +52,7 @@ MonoBehaviour:
     buttonHover: {fileID: 8300000, guid: 9766a391f4db142feb06d49b6aaf9e26, type: 3}
     coinHover: {fileID: 8300000, guid: 8bcd023de90ec40a5b6cacd2b9319387, type: 3}
     purchaseSuccess: {fileID: 0}
-    purchaseFail: {fileID: 0}
+    purchaseFail: {fileID: 8300000, guid: 93c8589dc470846bb9c83ca40eb555af, type: 3}
     levelStart: {fileID: 0}
     levelComplete: {fileID: 0}
     gameOver: {fileID: 0}
@@ -57,3 +63,4 @@ MonoBehaviour:
     levelSuccess: {fileID: 8300000, guid: dfcb0ac64b8494751b3297accff5105d, type: 3}
     clockTick: {fileID: 8300000, guid: c378e61f6e93f41daa16c9f1287ee74c, type: 3}
     booing: {fileID: 8300000, guid: 287a7665b172c40e0ab12eb072e544e5, type: 3}
+    introMusic: {fileID: 8300000, guid: ac8e621dc91854129a867d212d2b6c13, type: 3}

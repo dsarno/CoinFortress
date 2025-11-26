@@ -77,18 +77,21 @@ public class StoreManager : MonoBehaviour
         {
             buyAmmoPackButton.onClick.RemoveAllListeners();
             buyAmmoPackButton.onClick.AddListener(BuyAmmoPack);
+            SuppressDefaultClick(buyAmmoPackButton);
         }
         
         if (buyBiggerBallsButton != null)
         {
             buyBiggerBallsButton.onClick.RemoveAllListeners();
             buyBiggerBallsButton.onClick.AddListener(BuyBiggerBalls);
+            SuppressDefaultClick(buyBiggerBallsButton);
         }
         
         if (buyNewCannonButton != null)
         {
             buyNewCannonButton.onClick.RemoveAllListeners();
             buyNewCannonButton.onClick.AddListener(BuyNewCannon);
+            SuppressDefaultClick(buyNewCannonButton);
         }
         
         // Initial UI Update
@@ -138,8 +141,8 @@ public class StoreManager : MonoBehaviour
         if (ammoPackCostText != null)
             ammoPackCostText.text = ammoPackCost.ToString();
             
-        if (buyAmmoPackButton != null)
-            buyAmmoPackButton.interactable = playerStats.coins >= ammoPackCost;
+        // if (buyAmmoPackButton != null)
+        //    buyAmmoPackButton.interactable = playerStats.coins >= ammoPackCost;
             
         // 2. Bigger Balls (Damage)
         if (playerStats.damageLevel >= 3) // Max level (Mega)
@@ -159,7 +162,7 @@ public class StoreManager : MonoBehaviour
                 
             if (buyBiggerBallsButton != null)
             {
-                buyBiggerBallsButton.interactable = playerStats.coins >= currentDamageCost;
+                // buyBiggerBallsButton.interactable = playerStats.coins >= currentDamageCost;
                 // Show NEXT level sprite
                 UpdateBiggerBallsIcon(playerStats.damageLevel + 1);
             }
@@ -170,8 +173,8 @@ public class StoreManager : MonoBehaviour
         if (newCannonCostText != null)
             newCannonCostText.text = currentCannonCost.ToString();
             
-        if (buyNewCannonButton != null)
-            buyNewCannonButton.interactable = playerStats.coins >= currentCannonCost;
+        // if (buyNewCannonButton != null)
+        //    buyNewCannonButton.interactable = playerStats.coins >= currentCannonCost;
     }
     
     private void BuyAmmoPack()
@@ -245,6 +248,15 @@ public class StoreManager : MonoBehaviour
         else
         {
             if (SoundManager.Instance != null) SoundManager.Instance.PlayPurchaseFail();
+        }
+    }
+
+    private void SuppressDefaultClick(Button btn)
+    {
+        var soundComp = btn.GetComponent<UIButtonSounds>();
+        if (soundComp != null)
+        {
+            soundComp.suppressDefaultClickSound = true;
         }
     }
 

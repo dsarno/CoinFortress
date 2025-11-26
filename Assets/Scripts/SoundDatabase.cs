@@ -114,4 +114,7 @@ public class UISound
     [Header("Game Over Sounds")]
     public AudioClip clockTick;
     public AudioClip booing;
+    
+    [Header("Music")]
+    public AudioClip introMusic;
 }
