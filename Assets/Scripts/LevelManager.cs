@@ -12,6 +12,7 @@ public class LevelManager : MonoBehaviour
     public StoreManager storeManager;
     public GameObject mainMenuPanel;
     public GameObject gameOverPanel;
+    public GameObject youWinPanel;
     
     [Header("Level Settings")]
     public int currentLevel = 1;
@@ -101,6 +102,12 @@ public class LevelManager : MonoBehaviour
                 Transform panelTrans = canvasTrans.Find("HUD Panel/Main Menu Panel");
                 if (panelTrans != null) mainMenuPanel = panelTrans.gameObject;
             }
+            
+            if (youWinPanel == null)
+            {
+                Transform panelTrans = canvasTrans.Find("You Win Panel");
+                if (panelTrans != null) youWinPanel = panelTrans.gameObject;
+            }
         }
 
         if (gameOverPanel == null) 
@@ -125,6 +132,21 @@ public class LevelManager : MonoBehaviour
             else
             {
                 Debug.LogWarning("LevelManager: Play Again Button not found in Game Over Panel!");
+            }
+        }
+        
+        if (youWinPanel != null)
+        {
+            Button restartBtn = youWinPanel.transform.Find("Restart Button")?.GetComponent<Button>();
+            if (restartBtn != null)
+            {
+                restartBtn.onClick.RemoveAllListeners();
+                restartBtn.onClick.AddListener(RestartGame);
+                
+                if (restartBtn.GetComponent<UIButtonSounds>() == null)
+                {
+                    restartBtn.gameObject.AddComponent<UIButtonSounds>();
+                }
             }
         }
 
@@ -353,8 +375,6 @@ public class LevelManager : MonoBehaviour
     
     private void PrepareNextLevel()
     {
-        currentLevel++;
-        
         // Stop spawning new coins
         if (coinFountainCoroutine != null)
         {
@@ -379,15 +399,69 @@ public class LevelManager : MonoBehaviour
             Destroy(fortressRoot);
         }
         
-        // Get next level from progression manager
+        // Check if we have more levels
         LevelProgressionManager progressionManager = FindFirstObjectByType<LevelProgressionManager>();
+        bool hasMoreLevels = false;
+        
         if (progressionManager != null)
         {
-            progressionManager.StartNextLevel();
+            // Check if next index is valid
+            if (progressionManager.currentLevelIndex + 1 < progressionManager.levelSequence.Count)
+            {
+                hasMoreLevels = true;
+                currentLevel++;
+                progressionManager.StartNextLevel();
+                // Open store
+                StartLevel();
+            }
+            else
+            {
+                // No more levels - Game Won!
+                ShowYouWin();
+            }
+        }
+        else
+        {
+            // Fallback if no manager
+            currentLevel++;
+            StartLevel();
+        }
+    }
+
+    private void ShowYouWin()
+    {
+        if (youWinPanel != null)
+        {
+            youWinPanel.SetActive(true);
+            youWinPanel.transform.SetAsLastSibling();
+            
+            // Animate scale up
+            youWinPanel.transform.localScale = Vector3.zero;
+            StartCoroutine(AnimatePanelScale(youWinPanel.transform));
+            
+            if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.PlayGameWin();
+            }
+        }
+    }
+    
+    private System.Collections.IEnumerator AnimatePanelScale(Transform panelTransform)
+    {
+        float duration = 0.5f;
+        float elapsed = 0f;
+        
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            // Elastic ease out
+            float scale = Mathf.Sin(-13f * (t + 1f) * Mathf.PI * 0.5f) * Mathf.Pow(2f, -10f * t) + 1f;
+            panelTransform.localScale = Vector3.one * scale;
+            yield return null;
         }
         
-        // Open store
-        StartLevel();
+        panelTransform.localScale = Vector3.one;
     }
     
     public void RestartGame()

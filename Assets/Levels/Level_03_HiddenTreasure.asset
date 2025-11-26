@@ -22,6 +22,9 @@ MonoBehaviour:
   backgroundPrefab: {fileID: 0}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   skyColor: {r: 0.4, g: 0.3, b: 0.5, a: 1}
+  backgroundPosition: {x: -22.3974, y: 17.1204, z: 0}
+  backgroundScale: {x: 6.9483266, y: 5.539758, z: 1}
+  backgroundRotation: {x: 0, y: 0, z: 0, w: 1}
   difficultyLevel: 5
   startingAmmo: 12
   enemyFireRate: 1.5

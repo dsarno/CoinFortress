@@ -61,6 +61,7 @@ MonoBehaviour:
     ammoReload: {fileID: 0}
     cheerLevelWin: {fileID: 8300000, guid: 4344c785945684e7b96918443cf39c07, type: 3}
     levelSuccess: {fileID: 8300000, guid: dfcb0ac64b8494751b3297accff5105d, type: 3}
+    victoryHorns: {fileID: 8300000, guid: fd8ae419c0fa0457b8cf141a5bde2b56, type: 3}
     clockTick: {fileID: 8300000, guid: c378e61f6e93f41daa16c9f1287ee74c, type: 3}
     booing: {fileID: 8300000, guid: 287a7665b172c40e0ab12eb072e544e5, type: 3}
     introMusic: {fileID: 8300000, guid: ac8e621dc91854129a867d212d2b6c13, type: 3}

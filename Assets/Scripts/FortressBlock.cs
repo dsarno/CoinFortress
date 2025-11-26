@@ -32,6 +32,7 @@ public class FortressBlock : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
     private CrackEffect crackEffect;
+    private BlockShake blockShake;
     
     private void Start()
     {
@@ -42,8 +43,9 @@ public class FortressBlock : MonoBehaviour
             originalColor = spriteRenderer.color;
         }
         
-        // Cache crack effect component
+        // Cache components
         crackEffect = GetComponent<CrackEffect>();
+        blockShake = GetComponent<BlockShake>();
     }
     
     public void TakeDamage(int amount)
@@ -58,6 +60,12 @@ public class FortressBlock : MonoBehaviour
         if (crackEffect != null)
         {
             crackEffect.UpdateCrackProgress(damagePercent);
+        }
+        
+        // Trigger shake
+        if (blockShake != null)
+        {
+            blockShake.Shake();
         }
         
         // Visual feedback

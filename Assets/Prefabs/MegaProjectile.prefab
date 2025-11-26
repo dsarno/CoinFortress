@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e0f5eb67148043eb98494e50e8d95d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  damage: 4
+  damage: 3
   baseSpeed: 35
   upgradeCost: 100
   splashRadius: 5
@@ -165,7 +165,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1.2
+  m_GravityScale: 0.93
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2

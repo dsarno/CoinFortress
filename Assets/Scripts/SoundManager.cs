@@ -311,6 +311,12 @@ public class SoundManager : MonoBehaviour
         if (soundDatabase?.uiSounds?.levelSuccess != null)
             PlaySFX(soundDatabase.uiSounds.levelSuccess, 1f, false);
     }
+
+    public void PlayGameWin()
+    {
+        if (soundDatabase?.uiSounds?.victoryHorns != null)
+            PlaySFX(soundDatabase.uiSounds.victoryHorns, 1f, false);
+    }
     
     public void PlayGameOver()
     {

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6153092462323165886}
   - component: {fileID: 1569645442382184612}
   - component: {fileID: 4210933386647882600}
+  - component: {fileID: 6727034601474984599}
   m_Layer: 0
   m_Name: StoneBlock
   m_TagString: Untagged
@@ -176,3 +177,19 @@ MonoBehaviour:
   maxRotation: 15
   minScale: 0.9
   maxScale: 1.1
+--- !u!114 &6727034601474984599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 173356316462291025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d24a14aac4104e7d83d52a889752470, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlockShake
+  shakeDuration: 0.3
+  shakeIntensity: 0.4
+  shakeSpeed: 20
+  usePerlinNoise: 1

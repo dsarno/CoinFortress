@@ -80,6 +80,18 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 7.25
       objectReference: {fileID: 0}
+    - target: {fileID: 6727034601474984599, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
+      propertyPath: shakeSpeed
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727034601474984599, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
+      propertyPath: shakeDuration
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727034601474984599, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
+      propertyPath: shakeIntensity
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 7574463335031143440, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
