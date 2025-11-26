@@ -156,7 +156,8 @@ public class LevelProgressionManager : MonoBehaviour
             }
             
             // Instantiate new background
-            GameObject bgObject = Instantiate(config.backgroundPrefab, Vector3.zero, Quaternion.identity);
+            GameObject bgObject = Instantiate(config.backgroundPrefab, config.backgroundPosition, config.backgroundRotation);
+            bgObject.transform.localScale = config.backgroundScale;
             bgObject.name = "Background";
             backgroundRenderer = bgObject.GetComponent<SpriteRenderer>();
         }
@@ -175,6 +176,11 @@ public class LevelProgressionManager : MonoBehaviour
             {
                 backgroundRenderer.color = Color.white;
             }
+            
+            // Apply transform settings to existing background
+            backgroundRenderer.transform.position = config.backgroundPosition;
+            backgroundRenderer.transform.rotation = config.backgroundRotation;
+            backgroundRenderer.transform.localScale = config.backgroundScale;
         }
         
         // Update camera background color

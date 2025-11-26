@@ -16,12 +16,15 @@ MonoBehaviour:
   levelName: Dragon's Keep
   levelDescription: Face the mighty fortress with a boss turret!
   fortressLayout: {fileID: 11400000, guid: 699c577d87fd447bc91876c60328d76c, type: 2}
-  fortressSpawnPosition: {x: 12, y: -11}
-  playerSpawnPosition: {x: -12, y: -3, z: 0}
+  fortressSpawnPosition: {x: 26.2, y: -3.6999998}
+  playerSpawnPosition: {x: -4.5, y: -3.3, z: 0}
   backgroundSprite: {fileID: 4577981051654946072, guid: b527a371dca9e48d091db22d653e8e4e, type: 3}
-  backgroundPrefab: {fileID: 0}
+  backgroundPrefab: {fileID: 3523901422181657041, guid: 14d07b30a466a4b86a2e7a6b10a75b5f, type: 3}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   skyColor: {r: 0.4, g: 0.3, b: 0.5, a: 1}
+  backgroundPosition: {x: -27.5433, y: 16.1448, z: 0}
+  backgroundScale: {x: 9.529496, y: 5.607069, z: 1.4041343}
+  backgroundRotation: {x: 0, y: 0, z: 0, w: 1}
   difficultyLevel: 5
   startingAmmo: 12
   enemyFireRate: 1.5

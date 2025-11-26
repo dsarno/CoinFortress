@@ -23,6 +23,11 @@ public class LevelConfig : ScriptableObject
     public Color backgroundColor = Color.white;
     public Color skyColor = new Color(0.4f, 0.3f, 0.5f);
     
+    [Header("Background Transform")]
+    public Vector3 backgroundPosition = Vector3.zero;
+    public Vector3 backgroundScale = Vector3.one;
+    public Quaternion backgroundRotation = Quaternion.identity;
+    
     [Header("Difficulty")]
     [Range(1, 10)]
     public int difficultyLevel = 1;
