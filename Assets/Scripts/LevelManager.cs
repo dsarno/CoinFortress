@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class LevelManager : MonoBehaviour
     public FortressSpawner fortressSpawner;
     public StoreManager storeManager;
     public GameObject mainMenuPanel;
+    public GameObject gameOverPanel;
     
     [Header("Level Settings")]
     public int currentLevel = 1;
@@ -23,6 +25,8 @@ public class LevelManager : MonoBehaviour
     public int coinsPerLevel = 50;
     public float coinFountainDuration = 2f;
     public float coinSpawnRate = 0.1f;
+    
+    private int lastSecondTicked = -1;
     
     private void Awake()
     {
@@ -39,7 +43,96 @@ public class LevelManager : MonoBehaviour
     
     private void Start()
     {
+        RefreshReferences();
         // MainMenuController handles showing the menu on start
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        RefreshReferences();
+    }
+
+    private void RefreshReferences()
+    {
+        // Find PlayerStats
+        if (playerStats == null)
+        {
+            playerStats = FindFirstObjectByType<PlayerStats>();
+        }
+
+        // Find FortressSpawner
+        if (fortressSpawner == null)
+        {
+            fortressSpawner = FindFirstObjectByType<FortressSpawner>();
+        }
+
+        // Find StoreManager
+        if (storeManager == null)
+        {
+            storeManager = FindFirstObjectByType<StoreManager>();
+        }
+
+        // Find UI Panels
+        Transform canvasTrans = GameObject.Find("Canvas")?.transform;
+        if (canvasTrans != null)
+        {
+            if (gameOverPanel == null)
+            {
+                Transform panelTrans = canvasTrans.Find("Game Over Panel");
+                if (panelTrans != null) gameOverPanel = panelTrans.gameObject;
+            }
+
+            if (mainMenuPanel == null)
+            {
+                Transform panelTrans = canvasTrans.Find("HUD Panel/Main Menu Panel");
+                if (panelTrans != null) mainMenuPanel = panelTrans.gameObject;
+            }
+        }
+
+        if (gameOverPanel == null) 
+        {
+            Debug.LogError("LevelManager: Game Over Panel not found!");
+        }
+        else
+        {
+            // Dynamically hook up the Restart Button to ensure it works after scene reload
+            Button restartBtn = gameOverPanel.transform.Find("Play Again Button")?.GetComponent<Button>();
+            if (restartBtn != null)
+            {
+                restartBtn.onClick.RemoveAllListeners();
+                restartBtn.onClick.AddListener(RestartGame);
+                
+                // Ensure sound component is attached
+                if (restartBtn.GetComponent<UIButtonSounds>() == null)
+                {
+                    restartBtn.gameObject.AddComponent<UIButtonSounds>();
+                }
+            }
+            else
+            {
+                Debug.LogWarning("LevelManager: Play Again Button not found in Game Over Panel!");
+            }
+        }
+
+        if (mainMenuPanel == null) Debug.LogWarning("LevelManager: Main Menu Panel not found!");
+        
+        // Ensure EventSystem exists
+        if (FindFirstObjectByType<UnityEngine.EventSystems.EventSystem>() == null)
+        {
+            GameObject eventSystem = new GameObject("EventSystem");
+            eventSystem.AddComponent<UnityEngine.EventSystems.EventSystem>();
+            eventSystem.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+        }
     }
 
     private void Update()
@@ -47,6 +140,18 @@ public class LevelManager : MonoBehaviour
         if (levelInProgress && hasTimeLimit)
         {
             timeElapsed += Time.deltaTime;
+            float timeLeft = timeLimit - timeElapsed;
+
+            if (timeLeft <= 5.0f && timeLeft > 0f)
+            {
+                int currentSecond = Mathf.CeilToInt(timeLeft);
+                if (currentSecond != lastSecondTicked)
+                {
+                    if (SoundManager.Instance != null) SoundManager.Instance.PlayClockTick();
+                    lastSecondTicked = currentSecond;
+                }
+            }
+
             if (timeElapsed >= timeLimit)
             {
                 LevelFailed();
@@ -107,6 +212,11 @@ public class LevelManager : MonoBehaviour
         // Wait briefly for button click sound to play
         yield return new WaitForSeconds(0.15f);
         
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(false);
+        }
+
         // Close store if open
         if (storeManager != null)
         {
@@ -146,6 +256,7 @@ public class LevelManager : MonoBehaviour
         }
         
         timeElapsed = 0f;
+        lastSecondTicked = -1;
         
         // Play level start sound and music
         if (SoundManager.Instance != null)
@@ -166,23 +277,20 @@ public class LevelManager : MonoBehaviour
         }
         
         // Spawn fortress
+        if (fortressSpawner == null)
+        {
+            fortressSpawner = FindFirstObjectByType<FortressSpawner>();
+        }
+
         if (fortressSpawner != null)
         {
             fortressSpawner.fortressRoot = null;
             fortressSpawner.SpawnFortress();
+            Debug.Log("LevelManager: Fortress spawned.");
         }
         else
         {
-            fortressSpawner = FindFirstObjectByType<FortressSpawner>();
-            if (fortressSpawner != null)
-            {
-                fortressSpawner.fortressRoot = null;
-                fortressSpawner.SpawnFortress();
-            }
-            else
-            {
-                Debug.LogWarning("FortressSpawner is null and could not be found!");
-            }
+            Debug.LogError("FortressSpawner is null and could not be found!");
         }
         
         levelInProgress = true;
@@ -235,6 +343,16 @@ public class LevelManager : MonoBehaviour
     {
         currentLevel++;
         
+        // Cleanup remaining coins
+        CoinController[] coins = FindObjectsByType<CoinController>(FindObjectsSortMode.None);
+        foreach (var coin in coins)
+        {
+            if (coin != null)
+            {
+                Destroy(coin.gameObject);
+            }
+        }
+
         // Clear old fortress
         GameObject fortressRoot = GameObject.Find("FortressRoot");
         if (fortressRoot != null)
@@ -265,12 +383,22 @@ public class LevelManager : MonoBehaviour
         
         if (SoundManager.Instance != null)
         {
+            SoundManager.Instance.FadeOutMusic(1.0f);
+            SoundManager.Instance.PlayBooing();
             SoundManager.Instance.PlayGameOver();
         }
         
-        // Show game over UI or restart level
-        // For now, just restart the level after a delay
-        Invoke(nameof(RestartLevel), 2f);
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true);
+            // Ensure it's on top
+            gameOverPanel.transform.SetAsLastSibling();
+            Debug.Log("LevelManager: Game Over Panel activated.");
+        }
+        else
+        {
+            Debug.LogError("LevelManager: Game Over Panel is null in LevelFailed!");
+        }
     }
 
     private void RestartLevel()

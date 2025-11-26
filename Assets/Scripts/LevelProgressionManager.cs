@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 /// <summary>
@@ -25,6 +26,34 @@ public class LevelProgressionManager : MonoBehaviour
         {
             Debug.LogWarning("No levels in sequence! Add level configs to the list.");
         }
+        RefreshReferences();
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        RefreshReferences();
+    }
+
+    private void RefreshReferences()
+    {
+        if (fortressSpawner == null) fortressSpawner = FindFirstObjectByType<FortressSpawner>();
+        if (levelManager == null) levelManager = FindFirstObjectByType<LevelManager>();
+        if (backgroundRenderer == null) 
+        {
+            GameObject bg = GameObject.Find("Background");
+            if (bg != null) backgroundRenderer = bg.GetComponent<SpriteRenderer>();
+        }
+        if (mainCamera == null) mainCamera = Camera.main;
     }
     
     public LevelConfig GetCurrentLevel()
@@ -70,6 +99,16 @@ public class LevelProgressionManager : MonoBehaviour
             return;
         }
         
+        // Ensure references are set
+        if (fortressSpawner == null) fortressSpawner = FindFirstObjectByType<FortressSpawner>();
+        if (levelManager == null) levelManager = FindFirstObjectByType<LevelManager>();
+        if (backgroundRenderer == null) 
+        {
+            GameObject bg = GameObject.Find("Background");
+            if (bg != null) backgroundRenderer = bg.GetComponent<SpriteRenderer>();
+        }
+        if (mainCamera == null) mainCamera = Camera.main;
+
         // Update level manager
         if (levelManager != null)
         {
@@ -93,7 +132,16 @@ public class LevelProgressionManager : MonoBehaviour
             if (fortressSpawner.spawnPoint != null)
             {
                 fortressSpawner.spawnPoint.position = config.fortressSpawnPosition;
+                Debug.Log($"LevelProgressionManager: Updated spawn point to {config.fortressSpawnPosition} for level {config.levelName}");
             }
+            else
+            {
+                Debug.LogWarning("LevelProgressionManager: FortressSpawner has no spawn point assigned!");
+            }
+        }
+        else
+        {
+            Debug.LogError("LevelProgressionManager: FortressSpawner not found!");
         }
         
         // Update background

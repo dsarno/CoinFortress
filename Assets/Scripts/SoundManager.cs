@@ -305,6 +305,18 @@ public class SoundManager : MonoBehaviour
         if (soundDatabase?.uiSounds?.gameOver != null)
             PlayUISound(soundDatabase.uiSounds.gameOver);
     }
+
+    public void PlayClockTick()
+    {
+        if (soundDatabase?.uiSounds?.clockTick != null)
+            PlaySFX(soundDatabase.uiSounds.clockTick, 1f, false);
+    }
+
+    public void PlayBooing()
+    {
+        if (soundDatabase?.uiSounds?.booing != null)
+            PlaySFX(soundDatabase.uiSounds.booing, 1f, false);
+    }
     
     public void PlayShieldActivate()
     {

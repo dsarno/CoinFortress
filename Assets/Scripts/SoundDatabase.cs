@@ -110,4 +110,8 @@ public class UISound
     [Header("Level Win Sounds")]
     public AudioClip cheerLevelWin;
     public AudioClip levelSuccess;
+    
+    [Header("Game Over Sounds")]
+    public AudioClip clockTick;
+    public AudioClip booing;
 }
