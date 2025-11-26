@@ -44,7 +44,7 @@ MonoBehaviour:
     sounds:
     - {fileID: 8300000, guid: ad36aa4e83ea04bdab71c40f1b8953c9, type: 3}
   - soundName: Chest Impact
-    blockTypes: 08000000
+    blockTypes: 0800000002000000
     sounds:
     - {fileID: 8300000, guid: 7069904b009434d8687b96e58d8e9625, type: 3}
   uiSounds:

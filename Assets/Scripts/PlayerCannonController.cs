@@ -9,6 +9,7 @@ public class PlayerCannonController : MonoBehaviour
     public GameObject[] projectilePrefabs;
     public GameObject fireEffectPrefab;
     public Transform firePoint;
+    public Transform firePoint2; // Second fire point for double barrel
     
     [Header("Settings")]
     public float projectileSpeed = 15f;
@@ -35,7 +36,10 @@ public class PlayerCannonController : MonoBehaviour
         // Create fire point if not assigned
         if (firePoint == null)
         {
+            // Try to find FirePoint or FirePoint1
             Transform existingFirePoint = transform.Find("FirePoint");
+            if (existingFirePoint == null) existingFirePoint = transform.Find("FirePoint1");
+            
             if (existingFirePoint != null)
             {
                 firePoint = existingFirePoint;
@@ -46,6 +50,19 @@ public class PlayerCannonController : MonoBehaviour
                 firePointObj.transform.SetParent(transform);
                 firePointObj.transform.localPosition = new Vector3(1f, 0f, 0f);
                 firePoint = firePointObj.transform;
+            }
+        }
+        
+        // Try to find second fire point if not assigned
+        if (firePoint2 == null)
+        {
+            // Try to find FirePoint2 or FirePoint1 (1)
+            Transform existingFirePoint2 = transform.Find("FirePoint2");
+            if (existingFirePoint2 == null) existingFirePoint2 = transform.Find("FirePoint1 (1)");
+            
+            if (existingFirePoint2 != null)
+            {
+                firePoint2 = existingFirePoint2;
             }
         }
     }
@@ -149,26 +166,43 @@ public class PlayerCannonController : MonoBehaviour
         int prefabIndex = Mathf.Clamp(playerStats.damageLevel, 1, projectilePrefabs.Length - 1);
         GameObject prefabToUse = projectilePrefabs[prefabIndex];
         
+        // Fire from first point
+        FireSingleShot(prefabToUse, firePoint, prefabIndex);
+        
+        // If we have a second fire point, fire from there too (Double Shot!)
+        if (firePoint2 != null)
+        {
+            // Consume extra ammo if available, or just fire free? 
+            // Let's make it consume 1 ammo for 2 shots for now (upgrade benefit)
+            // Or maybe consume 2 ammo? Let's stick to 1 ammo = 1 volley for now.
+            FireSingleShot(prefabToUse, firePoint2, prefabIndex);
+        }
+    }
+
+    private void FireSingleShot(GameObject prefabToUse, Transform spawnPoint, int prefabIndex)
+    {
+        if (spawnPoint == null) return;
+
         // Spawn projectile
         // Use prefab's rotation if it's not the standard ball (to maintain trails/orientation)
-        Quaternion spawnRotation = firePoint.rotation;
+        Quaternion spawnRotation = spawnPoint.rotation;
         if (prefabIndex >= 2) // PowerUp and Mega have specific orientations
         {
             spawnRotation = prefabToUse.transform.rotation;
         }
         
-        GameObject projectile = Instantiate(prefabToUse, firePoint.position, spawnRotation);
+        GameObject projectile = Instantiate(prefabToUse, spawnPoint.position, spawnRotation);
         Projectile projectileScript = projectile.GetComponent<Projectile>();
 
         // Spawn fire effect
         if (fireEffectPrefab != null)
         {
-            Instantiate(fireEffectPrefab, firePoint.position, firePoint.rotation);
+            Instantiate(fireEffectPrefab, spawnPoint.position, spawnPoint.rotation);
         }
         
         if (projectileScript != null)
         {
-            Vector2 direction = firePoint.right;
+            Vector2 direction = spawnPoint.right;
             // Pass -1 to use prefab's damage and speed
             projectileScript.Initialize(direction, -1f, -1, playerStats.ammoTier);
         }

@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5df062d6454334db28dcc56a5d14f1f0, type: 3}
-  m_Name: Level_04
+  m_Name: Level_03_HiddenTreasure
   m_EditorClassIdentifier: Assembly-CSharp::LevelConfig
   levelNumber: 3
   levelName: Dragon's Keep
   levelDescription: Face the mighty fortress with a boss turret!
-  fortressLayout: {fileID: 11400000, guid: 10400a35115b441f88336a9089e5c5e0, type: 2}
-  fortressSpawnPosition: {x: 12, y: -11}
-  playerSpawnPosition: {x: -12, y: -3, z: 0}
-  backgroundSprite: {fileID: 2341194353527624942, guid: 6bf2927d88dd94e758313e3cf9edd385, type: 3}
+  fortressLayout: {fileID: 11400000, guid: 423673b87958141888008bfa23f4bb46, type: 2}
+  fortressSpawnPosition: {x: 14.3, y: 6}
+  playerSpawnPosition: {x: -3.8, y: 4.8, z: 0}
+  backgroundSprite: {fileID: 6481067630635284858, guid: a43125faa70fd49c596a1042c809d29f, type: 3}
   backgroundPrefab: {fileID: 0}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   skyColor: {r: 0.4, g: 0.3, b: 0.5, a: 1}

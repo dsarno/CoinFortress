@@ -25,6 +25,7 @@ public class PlayParticleSystems : MonoBehaviour
     {
         // Find all particle systems in children
         ParticleSystem[] systems = GetComponentsInChildren<ParticleSystem>();
+        float maxDuration = 0f;
         
         foreach (var ps in systems)
         {
@@ -36,7 +37,15 @@ public class PlayParticleSystems : MonoBehaviour
             // main.loop = false; 
             
             ps.Play();
+            
+            if (main.duration > maxDuration)
+            {
+                maxDuration = main.duration;
+            }
         }
         Debug.Log($"Played {systems.Length} particle systems on {name}");
+        
+        // Auto-destroy after the longest particle system finishes
+        Destroy(gameObject, maxDuration + 0.5f);
     }
 }

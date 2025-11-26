@@ -34,6 +34,9 @@ public class PlayerStats : MonoBehaviour
     public int fireRateLevel = 1;
     public int ammoCapacityLevel = 1;
     
+    [Header("Cannon Upgrades")]
+    public bool doubleBarrelUnlocked = false;
+
     // Events for UI updates
     public UnityEvent onStatsChanged = new UnityEvent();
     public UnityEvent onAmmoChanged = new UnityEvent();
@@ -77,6 +80,7 @@ public class PlayerStats : MonoBehaviour
         damageLevel = 1;
         fireRateLevel = 1;
         ammoCapacityLevel = 1;
+        doubleBarrelUnlocked = false;
         
         onStatsChanged?.Invoke();
         onAmmoChanged?.Invoke();
@@ -193,6 +197,12 @@ public class PlayerStats : MonoBehaviour
             ammoTier++;
             onStatsChanged?.Invoke();
         }
+    }
+
+    public void UnlockDoubleBarrel()
+    {
+        doubleBarrelUnlocked = true;
+        onStatsChanged?.Invoke();
     }
     
     private void Die()

@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5df062d6454334db28dcc56a5d14f1f0, type: 3}
-  m_Name: Level_01_Tutorial
+  m_Name: Level_01_Intro
   m_EditorClassIdentifier: Assembly-CSharp::LevelConfig
-  levelNumber: 1
-  levelName: Tutorial Fortress
-  levelDescription: Destroy the treasure chest to win! Use limited ammo wisely.
-  fortressLayout: {fileID: 11400000, guid: 299b7c2dc0b914cddadce04eb6c0ecea, type: 2}
-  fortressSpawnPosition: {x: 26.6, y: -4.5}
-  playerSpawnPosition: {x: -4.6, y: -0.2, z: 0}
-  backgroundSprite: {fileID: 2316288262981475970, guid: 95ce07b37119e4b48a71b1922d1087bb, type: 3}
+  levelNumber: 0
+  levelName: Level 1
+  levelDescription: Destroy the treasure chest to win!
+  fortressLayout: {fileID: 11400000, guid: 62689307dc6174330876fa9eee5129af, type: 2}
+  fortressSpawnPosition: {x: 12, y: -11}
+  playerSpawnPosition: {x: -2.6, y: 10.7, z: 0}
+  backgroundSprite: {fileID: -1955448553306655712, guid: ef8ce399bd75a4f7f9b3d30c395d049e, type: 3}
   backgroundPrefab: {fileID: 0}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   skyColor: {r: 0.4, g: 0.3, b: 0.5, a: 1}
   difficultyLevel: 1
-  startingAmmo: 15
-  enemyFireRate: 3
+  startingAmmo: 10
+  enemyFireRate: 2
   enableEnemyTurrets: 0
   coinsOnComplete: 50
   bonusCoinsForPerfect: 25
@@ -32,4 +32,4 @@ MonoBehaviour:
   hasGravity: 1
   windForce: 0
   hasTimeLimit: 1
-  timeLimitSeconds: 30
+  timeLimitSeconds: 20

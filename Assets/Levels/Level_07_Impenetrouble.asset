@@ -10,27 +10,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5df062d6454334db28dcc56a5d14f1f0, type: 3}
-  m_Name: Level_02_Challenge
+  m_Name: Level_07_Impenetrouble
   m_EditorClassIdentifier: Assembly-CSharp::LevelConfig
-  levelNumber: 2
-  levelName: Fortified Castle
-  levelDescription: The fortress is stronger. Watch out for enemy turrets!
-  fortressLayout: {fileID: 11400000, guid: 1376f65f03f4b4c439535e4f27560f32, type: 2}
-  fortressSpawnPosition: {x: 21, y: -9.9}
-  playerSpawnPosition: {x: -4.8, y: -0.1, z: 0}
-  backgroundSprite: {fileID: -3282145457511034884, guid: 57bebc2edde4746fab9895f5b4111fe8, type: 3}
+  levelNumber: 3
+  levelName: Dragon's Keep
+  levelDescription: Face the mighty fortress with a boss turret!
+  fortressLayout: {fileID: 11400000, guid: e3f260ee334dd45c0af14c15e716dc5f, type: 2}
+  fortressSpawnPosition: {x: 12, y: -11}
+  playerSpawnPosition: {x: -12, y: -3, z: 0}
+  backgroundSprite: {fileID: 0}
   backgroundPrefab: {fileID: 0}
   backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   skyColor: {r: 0.4, g: 0.3, b: 0.5, a: 1}
-  difficultyLevel: 3
-  startingAmmo: 10
-  enemyFireRate: 2
+  difficultyLevel: 5
+  startingAmmo: 12
+  enemyFireRate: 1.5
   enableEnemyTurrets: 1
-  coinsOnComplete: 75
-  bonusCoinsForPerfect: 50
+  coinsOnComplete: 100
+  bonusCoinsForPerfect: 75
   enemySpawns:
+  - enemyType: 3
+    spawnPosition: {x: 0, y: 10}
+    fireRate: 1
+    health: 10
+    damage: 2
+    moves: 0
+    moveStart: {x: 0, y: 0}
+    moveEnd: {x: 0, y: 0}
+    moveSpeed: 2
   - enemyType: 0
-    spawnPosition: {x: 10, y: 0}
+    spawnPosition: {x: 8, y: 3}
     fireRate: 2
     health: 3
     damage: 1
@@ -39,8 +48,8 @@ MonoBehaviour:
     moveEnd: {x: 0, y: 0}
     moveSpeed: 2
   - enemyType: 0
-    spawnPosition: {x: -5, y: 5}
-    fireRate: 2.5
+    spawnPosition: {x: -8, y: 3}
+    fireRate: 2
     health: 3
     damage: 1
     moves: 0
@@ -48,6 +57,6 @@ MonoBehaviour:
     moveEnd: {x: 0, y: 0}
     moveSpeed: 2
   hasGravity: 1
-  windForce: 0
+  windForce: 1
   hasTimeLimit: 1
-  timeLimitSeconds: 40
+  timeLimitSeconds: 30

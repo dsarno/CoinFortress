@@ -53,6 +53,12 @@ public class Projectile : MonoBehaviour
     
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // Ignore collision with other projectiles
+        if (collision.gameObject.GetComponent<Projectile>() != null)
+        {
+            return;
+        }
+
         // Check if we hit a fortress block
         var block = collision.gameObject.GetComponent<FortressBlock>();
         if (block != null)

@@ -168,10 +168,20 @@ public class StoreManager : MonoBehaviour
             }
         }
             
-        // 3. New Cannon (Fire Rate)
-        int currentCannonCost = newCannonBaseCost * playerStats.fireRateLevel;
-        if (newCannonCostText != null)
-            newCannonCostText.text = currentCannonCost.ToString();
+        // 3. New Cannon (Fire Rate / Double Barrel)
+        if (playerStats.doubleBarrelUnlocked)
+        {
+            // Show Fire Rate Upgrade cost
+            int currentCannonCost = newCannonBaseCost * playerStats.fireRateLevel;
+            if (newCannonCostText != null)
+                newCannonCostText.text = currentCannonCost.ToString();
+        }
+        else
+        {
+            // Show Unlock Cost
+            if (newCannonCostText != null)
+                newCannonCostText.text = "50";
+        }
             
         // if (buyNewCannonButton != null)
         //    buyNewCannonButton.interactable = playerStats.coins >= currentCannonCost;
@@ -237,10 +247,30 @@ public class StoreManager : MonoBehaviour
     
     private void BuyNewCannon()
     {
-        int cost = newCannonBaseCost * playerStats.fireRateLevel;
-        if (playerStats.SpendCoins(cost))
+        // If already unlocked, maybe upgrade fire rate?
+        // For now, let's assume "New Cannon" means unlocking the double barrel
+        if (playerStats.doubleBarrelUnlocked)
         {
-            playerStats.UpgradeFireRate();
+            // Already unlocked, maybe upgrade fire rate instead?
+            int cost = newCannonBaseCost * playerStats.fireRateLevel;
+            if (playerStats.SpendCoins(cost))
+            {
+                playerStats.UpgradeFireRate();
+                if (SoundManager.Instance != null) SoundManager.Instance.PlayPurchaseSuccess();
+                UpdateUI();
+            }
+            else
+            {
+                if (SoundManager.Instance != null) SoundManager.Instance.PlayPurchaseFail();
+            }
+            return;
+        }
+
+        // Unlock Double Barrel
+        int unlockCost = 50; // Set a cost for the double barrel
+        if (playerStats.SpendCoins(unlockCost))
+        {
+            playerStats.UnlockDoubleBarrel();
             
             if (SoundManager.Instance != null) SoundManager.Instance.PlayPurchaseSuccess();
             UpdateUI();
