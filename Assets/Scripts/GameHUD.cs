@@ -12,6 +12,7 @@ public class GameHUD : MonoBehaviour
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI shieldText;
     public TextMeshProUGUI ammoTierText;
+    public TextMeshProUGUI timerText;
     
     private void Start()
     {
@@ -99,6 +100,32 @@ public class GameHUD : MonoBehaviour
             string[] tierColors = { "#FFFFFF", "#FFD700", "#FF4500" };
             
             ammoTierText.text = $"Ammo: <color={tierColors[playerStats.ammoTier]}>{tierNames[playerStats.ammoTier]}</color>";
+        }
+
+        // Timer
+        if (timerText != null && LevelManager.Instance != null)
+        {
+            if (LevelManager.Instance.levelInProgress && LevelManager.Instance.hasTimeLimit)
+            {
+                float timeLeft = Mathf.Max(0, LevelManager.Instance.timeLimit - LevelManager.Instance.timeElapsed);
+                int minutes = Mathf.FloorToInt(timeLeft / 60F);
+                int seconds = Mathf.FloorToInt(timeLeft - minutes * 60);
+                timerText.text = string.Format("{0:0}:{1:00}", minutes, seconds);
+                timerText.gameObject.SetActive(true);
+                
+                if (timeLeft <= 10f)
+                {
+                    timerText.color = Color.red;
+                }
+                else
+                {
+                    timerText.color = Color.white;
+                }
+            }
+            else
+            {
+                timerText.gameObject.SetActive(false);
+            }
         }
     }
     

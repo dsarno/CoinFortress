@@ -291,6 +291,13 @@ public class SoundManager : MonoBehaviour
     {
         if (soundDatabase?.uiSounds?.levelComplete != null)
             PlayUISound(soundDatabase.uiSounds.levelComplete);
+            
+        // Play additional win sounds if available
+        if (soundDatabase?.uiSounds?.cheerLevelWin != null)
+            PlaySFX(soundDatabase.uiSounds.cheerLevelWin, 1f, false);
+            
+        if (soundDatabase?.uiSounds?.levelSuccess != null)
+            PlaySFX(soundDatabase.uiSounds.levelSuccess, 1f, false);
     }
     
     public void PlayGameOver()

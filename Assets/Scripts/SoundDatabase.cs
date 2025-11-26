@@ -106,4 +106,8 @@ public class UISound
     public AudioClip shieldActivate;
     public AudioClip shieldBreak;
     public AudioClip ammoReload;
+
+    [Header("Level Win Sounds")]
+    public AudioClip cheerLevelWin;
+    public AudioClip levelSuccess;
 }

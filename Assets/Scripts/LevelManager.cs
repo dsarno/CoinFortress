@@ -14,6 +14,9 @@ public class LevelManager : MonoBehaviour
     [Header("Level Settings")]
     public int currentLevel = 1;
     public bool levelInProgress = false;
+    public bool hasTimeLimit = false;
+    public float timeLimit = 30f;
+    public float timeElapsed = 0f;
     
     [Header("Coin Spawning")]
     public GameObject coinPrefab; // You'll need to create this
@@ -37,6 +40,18 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         // MainMenuController handles showing the menu on start
+    }
+
+    private void Update()
+    {
+        if (levelInProgress && hasTimeLimit)
+        {
+            timeElapsed += Time.deltaTime;
+            if (timeElapsed >= timeLimit)
+            {
+                LevelFailed();
+            }
+        }
     }
     
     public void ShowMainMenu()
@@ -107,11 +122,30 @@ public class LevelManager : MonoBehaviour
         if (progressionManager != null)
         {
             progressionManager.LoadLevel(progressionManager.GetCurrentLevel());
+            
+            // Apply time limit from config
+            LevelConfig config = progressionManager.GetCurrentLevel();
+            if (config != null)
+            {
+                hasTimeLimit = config.hasTimeLimit;
+                timeLimit = config.timeLimitSeconds;
+            }
+            else
+            {
+                // Default fallback
+                hasTimeLimit = true;
+                timeLimit = 30f;
+            }
         }
         else
         {
             Debug.LogWarning("LevelProgressionManager is null!");
+            // Default fallback
+            hasTimeLimit = true;
+            timeLimit = 30f;
         }
+        
+        timeElapsed = 0f;
         
         // Play level start sound and music
         if (SoundManager.Instance != null)
@@ -168,6 +202,9 @@ public class LevelManager : MonoBehaviour
         
         // Start coin fountain
         StartCoroutine(SpawnCoinFountain(corePosition));
+        
+        // Open store after 2 seconds
+        Invoke(nameof(PrepareNextLevel), 2.0f);
     }
     
     private System.Collections.IEnumerator SpawnCoinFountain(Vector3 position)
@@ -192,11 +229,6 @@ public class LevelManager : MonoBehaviour
             }
             yield return new WaitForSeconds(coinSpawnRate);
         }
-
-        // Wait 5 seconds after last coin spawned before showing store
-        yield return new WaitForSeconds(5f);
-        
-        PrepareNextLevel();
     }
     
     private void PrepareNextLevel()
@@ -224,5 +256,26 @@ public class LevelManager : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void LevelFailed()
+    {
+        levelInProgress = false;
+        Debug.Log("Level Failed: Time Limit Reached!");
+        
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayGameOver();
+        }
+        
+        // Show game over UI or restart level
+        // For now, just restart the level after a delay
+        Invoke(nameof(RestartLevel), 2f);
+    }
+
+    private void RestartLevel()
+    {
+        // Reload current level setup
+        BeginLevel();
     }
 }

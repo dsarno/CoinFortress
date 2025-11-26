@@ -173,13 +173,8 @@ public class CoinController : MonoBehaviour
             return;
         }
         
-        // Calculate world position of UI element
-        // We need to pass the distance from camera to the object plane (z=0)
-        float distanceToCamera = Mathf.Abs(mainCamera.transform.position.z);
-        Vector3 screenPos = targetUI.position;
-        screenPos.z = distanceToCamera;
-        
-        Vector3 targetPos = mainCamera.ScreenToWorldPoint(screenPos);
+        // Fly directly to the target object's world position
+        Vector3 targetPos = targetUI.position;
         targetPos.z = 0; // Ensure it stays on the 2D plane
         
         // Accelerate

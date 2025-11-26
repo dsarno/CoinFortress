@@ -38,8 +38,8 @@ public class LevelConfig : ScriptableObject
     [Header("Level Modifiers")]
     public bool hasGravity = true;
     public float windForce = 0f; // Horizontal wind affecting projectiles
-    public bool hasTimeLimit = false;
-    public float timeLimitSeconds = 120f;
+    public bool hasTimeLimit = true;
+    public float timeLimitSeconds = 30f;
 }
 
 /// <summary>

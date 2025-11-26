@@ -53,3 +53,5 @@ MonoBehaviour:
     shieldActivate: {fileID: 0}
     shieldBreak: {fileID: 0}
     ammoReload: {fileID: 0}
+    cheerLevelWin: {fileID: 8300000, guid: 4344c785945684e7b96918443cf39c07, type: 3}
+    levelSuccess: {fileID: 8300000, guid: dfcb0ac64b8494751b3297accff5105d, type: 3}

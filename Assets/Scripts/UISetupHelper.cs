@@ -43,6 +43,9 @@ public class UISetupHelper : MonoBehaviour
         CreateHUDText(hudPanel.transform, "Coins Text", new Vector2(-10, -10), TextAnchor.UpperRight);
         CreateHUDText(hudPanel.transform, "Ammo Tier Text", new Vector2(-10, -40), TextAnchor.UpperRight);
         
+        // Create Timer (Top Center)
+        CreateHUDText(hudPanel.transform, "Timer Text", new Vector2(0, -10), TextAnchor.UpperCenter);
+
         // Add GameHUD component
         GameHUD hud = hudPanel.AddComponent<GameHUD>();
         hud.playerStats = playerStats;
@@ -51,6 +54,7 @@ public class UISetupHelper : MonoBehaviour
         hud.shieldText = hudPanel.transform.Find("Shield Text").GetComponent<TextMeshProUGUI>();
         hud.coinsText = hudPanel.transform.Find("Coins Text").GetComponent<TextMeshProUGUI>();
         hud.ammoTierText = hudPanel.transform.Find("Ammo Tier Text").GetComponent<TextMeshProUGUI>();
+        hud.timerText = hudPanel.transform.Find("Timer Text").GetComponent<TextMeshProUGUI>();
         
         Debug.Log("HUD created!");
     }
@@ -190,6 +194,12 @@ public class UISetupHelper : MonoBehaviour
             rect.anchorMax = new Vector2(1, 1);
             rect.pivot = new Vector2(1, 1);
         }
+        else if (alignment == TextAnchor.UpperCenter)
+        {
+            rect.anchorMin = new Vector2(0.5f, 1);
+            rect.anchorMax = new Vector2(0.5f, 1);
+            rect.pivot = new Vector2(0.5f, 1);
+        }
         
         rect.anchoredPosition = position;
         rect.sizeDelta = new Vector2(400, 30);
@@ -198,7 +208,10 @@ public class UISetupHelper : MonoBehaviour
         text.text = name;
         text.fontSize = 18;
         text.color = Color.white;
-        text.alignment = alignment == TextAnchor.UpperLeft ? TextAlignmentOptions.Left : TextAlignmentOptions.Right;
+        
+        if (alignment == TextAnchor.UpperLeft) text.alignment = TextAlignmentOptions.Left;
+        else if (alignment == TextAnchor.UpperRight) text.alignment = TextAlignmentOptions.Right;
+        else text.alignment = TextAlignmentOptions.Center;
         
         return textObj;
     }
