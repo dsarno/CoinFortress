@@ -57,4 +57,4 @@ MonoBehaviour:
   hasGravity: 1
   windForce: 1
   hasTimeLimit: 1
-  timeLimitSeconds: 180
+  timeLimitSeconds: 30

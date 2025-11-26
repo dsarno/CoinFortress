@@ -29,5 +29,5 @@ MonoBehaviour:
   enemySpawns: []
   hasGravity: 1
   windForce: 0
-  hasTimeLimit: 0
-  timeLimitSeconds: 120
+  hasTimeLimit: 1
+  timeLimitSeconds: 30

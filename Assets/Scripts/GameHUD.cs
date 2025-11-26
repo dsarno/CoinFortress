@@ -105,13 +105,18 @@ public class GameHUD : MonoBehaviour
         // Timer
         if (timerText != null && LevelManager.Instance != null)
         {
+            // Always show timer if level is in progress and has time limit
+            // OR if we are in editor mode and just want to see it (optional)
             if (LevelManager.Instance.levelInProgress && LevelManager.Instance.hasTimeLimit)
             {
                 float timeLeft = Mathf.Max(0, LevelManager.Instance.timeLimit - LevelManager.Instance.timeElapsed);
                 int minutes = Mathf.FloorToInt(timeLeft / 60F);
                 int seconds = Mathf.FloorToInt(timeLeft - minutes * 60);
                 timerText.text = string.Format("{0:0}:{1:00}", minutes, seconds);
-                timerText.gameObject.SetActive(true);
+                
+                // Ensure it's active
+                if (!timerText.gameObject.activeSelf) 
+                    timerText.gameObject.SetActive(true);
                 
                 if (timeLeft <= 10f)
                 {
@@ -124,7 +129,9 @@ public class GameHUD : MonoBehaviour
             }
             else
             {
-                timerText.gameObject.SetActive(false);
+                // Hide if not needed
+                if (timerText.gameObject.activeSelf)
+                    timerText.gameObject.SetActive(false);
             }
         }
     }
