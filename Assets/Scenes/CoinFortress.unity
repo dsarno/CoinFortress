@@ -2451,7 +2451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a0f21dd3af6c4e1e9618cb20f786bce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCannonController
-  projectilePrefab: {fileID: 4634355281955108549, guid: 370977e770a8a43b2930535977cfb38e, type: 3}
+  projectilePrefab: {fileID: 4634355281955108549, guid: a151a05404d614f2ba43bcbe5d452387, type: 3}
   powerUpProjectilePrefab: {fileID: 4634355281955108549, guid: a151a05404d614f2ba43bcbe5d452387, type: 3}
   fireEffectPrefab: {fileID: 3804595898914130854, guid: 6a8a7ec8cc892407ea957b55789f34d2, type: 3}
   firePoint: {fileID: 28171531}

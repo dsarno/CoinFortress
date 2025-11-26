@@ -155,7 +155,14 @@ public class PlayerCannonController : MonoBehaviour
         }
         
         // Spawn projectile
-        GameObject projectile = Instantiate(prefabToUse, firePoint.position, firePoint.rotation);
+        // Use prefab's rotation for PowerUpProjectile to maintain its visual orientation
+        Quaternion spawnRotation = firePoint.rotation;
+        if (prefabToUse == powerUpProjectilePrefab)
+        {
+            spawnRotation = prefabToUse.transform.rotation;
+        }
+        
+        GameObject projectile = Instantiate(prefabToUse, firePoint.position, spawnRotation);
         Projectile projectileScript = projectile.GetComponent<Projectile>();
 
         // Spawn fire effect
