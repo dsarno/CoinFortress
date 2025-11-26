@@ -80,7 +80,7 @@ public class FortressLayoutEditor : EditorWindow
     {
         EditorGUILayout.BeginHorizontal();
         
-        BlockType[] blockTypes = { BlockType.Empty, BlockType.Stone, BlockType.Iron, BlockType.Gold, BlockType.Core, BlockType.Turret, BlockType.Window, BlockType.Roof, BlockType.TreasureChest };
+        BlockType[] blockTypes = { BlockType.Empty, BlockType.Stone, BlockType.Iron, BlockType.Gold, BlockType.Diamond, BlockType.Silver, BlockType.Window, BlockType.Roof, BlockType.TreasureChest };
         
         foreach (BlockType blockType in blockTypes)
         {
@@ -172,8 +172,8 @@ public class FortressLayoutEditor : EditorWindow
             case BlockType.Stone: return new Color(0.6f, 0.4f, 0.2f);
             case BlockType.Iron: return new Color(0.5f, 0.5f, 0.6f);
             case BlockType.Gold: return new Color(0.9f, 0.8f, 0.2f);
-            case BlockType.Core: return new Color(1f, 0.3f, 0f);
-            case BlockType.Turret: return new Color(0.3f, 0.3f, 0.5f);
+            case BlockType.Diamond: return new Color(0.6f, 0.8f, 1f);
+            case BlockType.Silver: return new Color(0.8f, 0.8f, 0.8f);
             case BlockType.Window: return new Color(0.4f, 0.3f, 0.2f);
             case BlockType.Roof: return new Color(0.7f, 0.2f, 0.1f);
             case BlockType.TreasureChest: return new Color(0.4f, 0.4f, 0.45f);

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1569645442382184612}
   - component: {fileID: 4210933386647882600}
   m_Layer: 0
-  m_Name: StoneBlock
+  m_Name: SilverBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,8 +82,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 96741051069415092, guid: 9c406462c0d1344f790b83b8b136500f, type: 3}
-  m_Color: {r: 0.4811321, g: 0.31016377, b: 0.2246796, a: 1}
+  m_Sprite: {fileID: 318031729153308354, guid: dc0b0c8afb6bb4690beef5a8f69fa4a9, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -131,7 +131,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 6.79, y: 7.25}
+    oldSize: {x: 6.46, y: 6.21}
     newSize: {x: 10.24, y: 10.24}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -151,14 +151,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab5c80261121e410282ac51fa3860b5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FortressBlock
-  blockType: 1
-  maxHP: 2
+  blockType: 5
+  maxHP: 3
   currentHP: 0
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   damageFlashDuration: 0.1
   hitEffectPrefab: {fileID: 5339628285563184577, guid: b9ebfb72aaaa0419991dca7bf0d30d26, type: 3}
   coinPrefab: {fileID: 6839403267698759826, guid: 858b5dd70f83640e5ae67fb4fb935ca7, type: 3}
-  coinDropCount: 0
+  coinDropCount: 5
 --- !u!114 &4210933386647882600
 MonoBehaviour:
   m_ObjectHideFlags: 0

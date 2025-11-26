@@ -3027,7 +3027,6 @@ MonoBehaviour:
   ammo: 5
   maxAmmo: 10
   ammoTier: 0
-  weakShotDamage: 1
   weakShotCooldown: 2
   maxHP: 3
   currentHP: 3
@@ -3908,8 +3907,8 @@ MonoBehaviour:
   stonePrefab: {fileID: 173356316462291025, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
   ironPrefab: {fileID: 1027057964895764807, guid: 85852dbabea0d4713855c067820c8b09, type: 3}
   goldPrefab: {fileID: 940603526490211977, guid: f9137b73218af4f10a76408b37d329a8, type: 3}
-  corePrefab: {fileID: 2789803470352984869, guid: a56dea624c8b749bb9445b01c4221d91, type: 3}
-  turretPrefab: {fileID: 7654528753920909867, guid: 73d6f90a57dd94d00a1aa6a8103f5a0d, type: 3}
+  diamondPrefab: {fileID: 0}
+  silverPrefab: {fileID: 0}
   windowPrefab: {fileID: 2817156463822332740, guid: 8370f87dad0ed425491da683a42248fb, type: 3}
   roofPrefab: {fileID: 1599858135945157075, guid: b3083dca29e224cc59087930c2aae397, type: 3}
   treasureChestPrefab: {fileID: 1678103908471517385, guid: cdfdf742538994c05a1e47812b6ecfdb, type: 3}

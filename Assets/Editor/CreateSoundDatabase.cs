@@ -26,7 +26,7 @@ public class CreateSoundDatabase : MonoBehaviour
         ImpactSound stoneImpact = new ImpactSound
         {
             soundName = "Stone Impact",
-            blockTypes = { BlockType.Stone, BlockType.Iron, BlockType.Gold, BlockType.Core, BlockType.Roof },
+            blockTypes = { BlockType.Stone, BlockType.Iron, BlockType.Gold, BlockType.Diamond, BlockType.Silver, BlockType.Roof },
             sounds = { AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sound/Canon/canon-impact-stone.wav") }
         };
         soundDB.impactSounds.Add(stoneImpact);

@@ -28,7 +28,13 @@ public class CrackEffect : MonoBehaviour
         blockSR = GetComponent<SpriteRenderer>();
         if (blockSR == null)
         {
-            Debug.LogError($"CrackEffect requires a SpriteRenderer on {name}.");
+            // Try to find SpriteRenderer in children
+            blockSR = GetComponentInChildren<SpriteRenderer>();
+        }
+
+        if (blockSR == null)
+        {
+            Debug.LogError($"CrackEffect requires a SpriteRenderer on {name} or its children.");
             enabled = false;
             return;
         }

@@ -6,8 +6,8 @@ public enum BlockType
     Stone,
     Iron,
     Gold,
-    Core,
-    Turret,
+    Diamond,
+    Silver,
     Window,
     Roof,
     TreasureChest

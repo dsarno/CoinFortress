@@ -51,7 +51,7 @@ public class InspectFortressLayout
                             case BlockType.TreasureChest: treasureBlocks++; break;
                             case BlockType.Window: windowBlocks++; break;
                             case BlockType.Roof: roofBlocks++; break;
-                            case BlockType.Turret: turretBlocks++; break;
+                            case BlockType.Diamond: turretBlocks++; break; // Reusing variable for now
                         }
                     }
                 }
@@ -62,7 +62,6 @@ public class InspectFortressLayout
                 Debug.Log($"  Treasure: {treasureBlocks}");
                 Debug.Log($"  Window: {windowBlocks}");
                 Debug.Log($"  Roof: {roofBlocks}");
-                Debug.Log($"  Turret: {turretBlocks}");
                 Debug.Log($"  Non-empty blocks: {totalBlocks - emptyBlocks}\n");
             }
         }

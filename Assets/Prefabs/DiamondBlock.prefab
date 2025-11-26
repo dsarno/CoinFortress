@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &2652828946361791348
+--- !u!1001 &875727346346694934
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 173356316462291025, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: m_Name
-      value: CoreBlock
+      value: DiamondBlock
       objectReference: {fileID: 0}
     - target: {fileID: 1569645442382184612, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: maxHP
@@ -21,25 +21,65 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1569645442382184612, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
-      propertyPath: currentHP
-      value: 1
+      propertyPath: coinPrefab
+      value: 
+      objectReference: {fileID: 6839403267698759826, guid: 858b5dd70f83640e5ae67fb4fb935ca7, type: 3}
+    - target: {fileID: 1569645442382184612, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
+      propertyPath: coinDropCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1569645442382184612, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
+      propertyPath: hitEffectPrefab
+      value: 
+      objectReference: {fileID: 5339628285563184577, guid: b9ebfb72aaaa0419991dca7bf0d30d26, type: 3}
+    - target: {fileID: 2094112790197163804, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
+      propertyPath: m_Size.x
+      value: 7.45
       objectReference: {fileID: 0}
     - target: {fileID: 2094112790197163804, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
+      propertyPath: m_Size.y
+      value: 7.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2094112790197163804, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -8021381687981832121, guid: 5e56d39c3f4f74a66a3707a960e42d32, type: 3}
+    - target: {fileID: 2094112790197163804, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 0.8301887
       objectReference: {fileID: 0}
     - target: {fileID: 2094112790197163804, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: m_Color.g
-      value: 0.3
+      value: 0.8301887
       objectReference: {fileID: 0}
     - target: {fileID: 2094112790197163804, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: m_Color.r
+      value: 0.8301887
+      objectReference: {fileID: 0}
+    - target: {fileID: 2094112790197163804, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4210933386647882600, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: spritesDatabase
       value: 
       objectReference: {fileID: 11400000, guid: 711779c11c966419681b6763fc1eb7cc, type: 2}
+    - target: {fileID: 6153092462323165886, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.x
+      value: 7.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 6153092462323165886, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.y
+      value: 7.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6153092462323165886, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 7.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 6153092462323165886, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 7.25
+      objectReference: {fileID: 0}
     - target: {fileID: 7574463335031143440, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -86,20 +126,20 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 173356316462291025, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6331735397877330124}
+      addedObject: {fileID: 6667840233260409172}
   m_SourcePrefab: {fileID: 100100000, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
---- !u!1 &2789803470352984869 stripped
+--- !u!1 &1027057964895764807 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 173356316462291025, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
-  m_PrefabInstance: {fileID: 2652828946361791348}
+  m_PrefabInstance: {fileID: 875727346346694934}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6331735397877330124
+--- !u!114 &6667840233260409172
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2789803470352984869}
+  m_GameObject: {fileID: 1027057964895764807}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 61474abdddf684e06b68a5bfd8f6c011, type: 3}

@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1569645442382184612, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: maxHP
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1569645442382184612, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: blockType
@@ -26,28 +26,40 @@ PrefabInstance:
       objectReference: {fileID: 6839403267698759826, guid: 858b5dd70f83640e5ae67fb4fb935ca7, type: 3}
     - target: {fileID: 1569645442382184612, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: coinDropCount
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1569645442382184612, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: hitEffectPrefab
       value: 
       objectReference: {fileID: 5339628285563184577, guid: b9ebfb72aaaa0419991dca7bf0d30d26, type: 3}
     - target: {fileID: 2094112790197163804, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 5980421564451727887, guid: 1222795c736084ceca6fe502fed7e39d, type: 3}
+    - target: {fileID: 2094112790197163804, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.8301887
       objectReference: {fileID: 0}
     - target: {fileID: 2094112790197163804, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: m_Color.g
-      value: 0.5
+      value: 0.8301887
       objectReference: {fileID: 0}
     - target: {fileID: 2094112790197163804, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: m_Color.r
-      value: 0.5
+      value: 0.8301887
       objectReference: {fileID: 0}
     - target: {fileID: 4210933386647882600, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: spritesDatabase
       value: 
       objectReference: {fileID: 11400000, guid: 711779c11c966419681b6763fc1eb7cc, type: 2}
+    - target: {fileID: 6153092462323165886, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 6.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 6153092462323165886, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 7.01
+      objectReference: {fileID: 0}
     - target: {fileID: 7574463335031143440, guid: ee0651b5b520b4368b7a5d499fa1aaa4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

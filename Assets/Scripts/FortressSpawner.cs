@@ -9,8 +9,8 @@ public class FortressSpawner : MonoBehaviour
     public GameObject stonePrefab;
     public GameObject ironPrefab;
     public GameObject goldPrefab;
-    public GameObject corePrefab;
-    public GameObject turretPrefab;
+    public GameObject diamondPrefab;
+    public GameObject silverPrefab;
     public GameObject windowPrefab;
     public GameObject roofPrefab;
     public GameObject treasureChestPrefab;
@@ -148,8 +148,8 @@ public class FortressSpawner : MonoBehaviour
             case BlockType.Stone: return stonePrefab;
             case BlockType.Iron: return ironPrefab;
             case BlockType.Gold: return goldPrefab;
-            case BlockType.Core: return corePrefab;
-            case BlockType.Turret: return turretPrefab;
+            case BlockType.Diamond: return diamondPrefab;
+            case BlockType.Silver: return silverPrefab;
             case BlockType.Window: return windowPrefab;
             case BlockType.Roof: return roofPrefab;
             case BlockType.TreasureChest: return treasureChestPrefab;
