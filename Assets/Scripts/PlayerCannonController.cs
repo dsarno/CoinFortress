@@ -5,8 +5,8 @@ using UnityEngine.EventSystems;
 public class PlayerCannonController : MonoBehaviour
 {
     [Header("References")]
-    public GameObject projectilePrefab;
-    public GameObject powerUpProjectilePrefab;
+    // Index 0: Weak, 1: Normal, 2: PowerUp, 3: Mega
+    public GameObject[] projectilePrefabs;
     public GameObject fireEffectPrefab;
     public Transform firePoint;
     
@@ -129,9 +129,9 @@ public class PlayerCannonController : MonoBehaviour
     
     private void FireNormalShot()
     {
-        if (projectilePrefab == null || firePoint == null)
+        if (projectilePrefabs == null || projectilePrefabs.Length == 0 || firePoint == null)
         {
-            Debug.LogWarning("Missing projectile prefab or fire point!");
+            Debug.LogWarning("Missing projectile prefabs or fire point!");
             return;
         }
         
@@ -144,20 +144,15 @@ public class PlayerCannonController : MonoBehaviour
             SoundManager.Instance.PlayCannonFireSound();
         }
         
-        // Determine prefab and speed based on upgrades
-        GameObject prefabToUse = projectilePrefab;
-        float speedToUse = projectileSpeed;
-        
-        if (playerStats.damageLevel > 1 && powerUpProjectilePrefab != null)
-        {
-            prefabToUse = powerUpProjectilePrefab;
-            speedToUse = projectileSpeed * 1.5f;
-        }
+        // Determine prefab based on damage level
+        // Level 1 = Normal (Index 1), Level 2 = PowerUp (Index 2), Level 3 = Mega (Index 3)
+        int prefabIndex = Mathf.Clamp(playerStats.damageLevel, 1, projectilePrefabs.Length - 1);
+        GameObject prefabToUse = projectilePrefabs[prefabIndex];
         
         // Spawn projectile
-        // Use prefab's rotation for PowerUpProjectile to maintain its visual orientation
+        // Use prefab's rotation if it's not the standard ball (to maintain trails/orientation)
         Quaternion spawnRotation = firePoint.rotation;
-        if (prefabToUse == powerUpProjectilePrefab)
+        if (prefabIndex >= 2) // PowerUp and Mega have specific orientations
         {
             spawnRotation = prefabToUse.transform.rotation;
         }
@@ -168,25 +163,22 @@ public class PlayerCannonController : MonoBehaviour
         // Spawn fire effect
         if (fireEffectPrefab != null)
         {
-            GameObject effect = Instantiate(fireEffectPrefab, firePoint.position, firePoint.rotation);
-            // Normal shot size (default prefab size)
+            Instantiate(fireEffectPrefab, firePoint.position, firePoint.rotation);
         }
         
         if (projectileScript != null)
         {
-            // Fire in the direction the cannon is pointing
             Vector2 direction = firePoint.right;
-            int damage = GetProjectileDamage();
-            projectileScript.Initialize(direction, speedToUse, damage, playerStats.ammoTier);
+            // Pass -1 to use prefab's damage and speed
+            projectileScript.Initialize(direction, -1f, -1, playerStats.ammoTier);
         }
-        
     }
     
     private void FireWeakShot()
     {
-        if (projectilePrefab == null || firePoint == null)
+        if (projectilePrefabs == null || projectilePrefabs.Length == 0 || firePoint == null)
         {
-            Debug.LogWarning("Missing projectile prefab or fire point!");
+            Debug.LogWarning("Missing projectile prefabs or fire point!");
             return;
         }
         
@@ -198,8 +190,8 @@ public class PlayerCannonController : MonoBehaviour
             SoundManager.Instance.PlayCannonFireSound(0.6f);
         }
         
-        // Spawn weak projectile
-        GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+        // Spawn weak projectile (Index 0)
+        GameObject projectile = Instantiate(projectilePrefabs[0], firePoint.position, firePoint.rotation);
         Projectile projectileScript = projectile.GetComponent<Projectile>();
 
         // Spawn fire effect
@@ -210,7 +202,6 @@ public class PlayerCannonController : MonoBehaviour
             if (ps != null)
             {
                 var main = ps.main;
-                // Reduce size for weak shot
                 main.startSize = new ParticleSystem.MinMaxCurve(weakShotSizeMin, weakShotSizeMax);
             }
         }
@@ -218,16 +209,10 @@ public class PlayerCannonController : MonoBehaviour
         if (projectileScript != null)
         {
             Vector2 direction = firePoint.right;
-            projectileScript.Initialize(direction, projectileSpeed * 0.7f, playerStats.weakShotDamage, 0);
-            
-            // Make it visually distinct (darker color)
-            SpriteRenderer sr = projectile.GetComponent<SpriteRenderer>();
-            if (sr != null)
-            {
-                sr.color = new Color(0.5f, 0.5f, 0.5f, 1f);
-            }
+            // Weak shot uses specific weak damage (usually 1)
+            // Pass -1 for speed to use the prefab's configured speed
+            projectileScript.Initialize(direction, -1f, playerStats.weakShotDamage, 0);
         }
-        
     }
     
     private int GetProjectileDamage()

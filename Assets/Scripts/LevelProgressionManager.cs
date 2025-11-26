@@ -202,4 +202,9 @@ public class LevelProgressionManager : MonoBehaviour
         LevelConfig nextLevel = GetNextLevel();
         LoadLevel(nextLevel);
     }
+
+    public void ResetProgression()
+    {
+        currentLevelIndex = 0;
+    }
 }

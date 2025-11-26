@@ -60,6 +60,28 @@ public class PlayerStats : MonoBehaviour
         onStatsChanged?.Invoke();
         onAmmoChanged?.Invoke();
     }
+
+    public void ResetForNewGame()
+    {
+        // Reset to initial values
+        damage = 1;
+        fireCooldown = 0.5f;
+        ammo = 10;
+        maxAmmo = 10;
+        ammoTier = 0;
+        currentHP = maxHP;
+        shieldUnlocked = false;
+        shieldCurrentHP = 0;
+        coins = 100; // Reset coins to starting amount
+        
+        damageLevel = 1;
+        fireRateLevel = 1;
+        ammoCapacityLevel = 1;
+        
+        onStatsChanged?.Invoke();
+        onAmmoChanged?.Invoke();
+        onCoinsChanged?.Invoke();
+    }
     
     public void ConsumeAmmo()
     {

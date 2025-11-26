@@ -588,11 +588,11 @@ PlayerSettings:
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
   scriptingDefineSymbols:
-    Android: GLTFAST_FORCE_DEFAULT_IMPORTER_OFF
-    Standalone: GLTFAST_FORCE_DEFAULT_IMPORTER_OFF
-    WebGL: GLTFAST_FORCE_DEFAULT_IMPORTER_OFF
-    Windows Store Apps: GLTFAST_FORCE_DEFAULT_IMPORTER_OFF
-    iPhone: GLTFAST_FORCE_DEFAULT_IMPORTER_OFF
+    Android: 
+    Standalone: 
+    WebGL: 
+    Windows Store Apps: 
+    iPhone: 
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:

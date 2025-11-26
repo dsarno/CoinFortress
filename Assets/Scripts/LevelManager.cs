@@ -373,6 +373,19 @@ public class LevelManager : MonoBehaviour
     
     public void RestartGame()
     {
+        // Reset progression
+        LevelProgressionManager progressionManager = FindFirstObjectByType<LevelProgressionManager>();
+        if (progressionManager != null)
+        {
+            progressionManager.ResetProgression();
+        }
+
+        // Reset player stats
+        if (playerStats != null)
+        {
+            playerStats.ResetForNewGame();
+        }
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

@@ -90,8 +90,8 @@ public class FortressBlock : MonoBehaviour
         // Spawn coins
         SpawnCoins();
         
-        // If this is the core or treasure chest, trigger special behavior
-        if (blockType == BlockType.Core || blockType == BlockType.TreasureChest)
+        // Only Treasure Chest triggers level complete
+        if (blockType == BlockType.TreasureChest)
         {
             TriggerLevelComplete();
         }

@@ -2451,11 +2451,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a0f21dd3af6c4e1e9618cb20f786bce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCannonController
-  projectilePrefab: {fileID: 4634355281955108549, guid: a151a05404d614f2ba43bcbe5d452387, type: 3}
-  powerUpProjectilePrefab: {fileID: 4634355281955108549, guid: a151a05404d614f2ba43bcbe5d452387, type: 3}
+  projectilePrefabs:
+  - {fileID: 4634355281955108549, guid: baed65f46bf574d4ba0e6833cf3f0869, type: 3}
+  - {fileID: 4634355281955108549, guid: 370977e770a8a43b2930535977cfb38e, type: 3}
+  - {fileID: 4634355281955108549, guid: a151a05404d614f2ba43bcbe5d452387, type: 3}
+  - {fileID: 4634355281955108549, guid: ca26c7adeb076484992d02ed96226a32, type: 3}
   fireEffectPrefab: {fileID: 3804595898914130854, guid: 6a8a7ec8cc892407ea957b55789f34d2, type: 3}
   firePoint: {fileID: 28171531}
-  projectileSpeed: 50
+  projectileSpeed: 20
   fireForce: 30
   weakShotSizeMin: 3
   weakShotSizeMax: 5
@@ -4302,6 +4305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StoreManager
   playerStats: {fileID: 1254431811}
+  cannonController: {fileID: 0}
   storePanel: {fileID: 5588201527508422484}
   coinsText: {fileID: 8084274339860358381}
   startLevelButton: {fileID: 7236276545093096571}

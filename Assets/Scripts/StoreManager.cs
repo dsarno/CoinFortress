@@ -6,6 +6,7 @@ public class StoreManager : MonoBehaviour
 {
     [Header("References")]
     public PlayerStats playerStats;
+    public PlayerCannonController cannonController;
     public GameObject storePanel;
     public TextMeshProUGUI coinsText; // HUD coins text
     
@@ -141,12 +142,28 @@ public class StoreManager : MonoBehaviour
             buyAmmoPackButton.interactable = playerStats.coins >= ammoPackCost;
             
         // 2. Bigger Balls (Damage)
-        int currentDamageCost = biggerBallsBaseCost * playerStats.damageLevel;
-        if (biggerBallsCostText != null)
-            biggerBallsCostText.text = currentDamageCost.ToString();
-            
-        if (buyBiggerBallsButton != null)
-            buyBiggerBallsButton.interactable = playerStats.coins >= currentDamageCost;
+        if (playerStats.damageLevel >= 3) // Max level (Mega)
+        {
+            if (biggerBallsCostText != null) biggerBallsCostText.text = "MAX";
+            if (buyBiggerBallsButton != null)
+            {
+                buyBiggerBallsButton.interactable = false;
+                UpdateBiggerBallsIcon(3); // Show max level icon
+            }
+        }
+        else
+        {
+            int currentDamageCost = GetNextProjectileCost();
+            if (biggerBallsCostText != null)
+                biggerBallsCostText.text = currentDamageCost.ToString();
+                
+            if (buyBiggerBallsButton != null)
+            {
+                buyBiggerBallsButton.interactable = playerStats.coins >= currentDamageCost;
+                // Show NEXT level sprite
+                UpdateBiggerBallsIcon(playerStats.damageLevel + 1);
+            }
+        }
             
         // 3. New Cannon (Fire Rate)
         int currentCannonCost = newCannonBaseCost * playerStats.fireRateLevel;
@@ -175,7 +192,7 @@ public class StoreManager : MonoBehaviour
     
     private void BuyBiggerBalls()
     {
-        int cost = biggerBallsBaseCost * playerStats.damageLevel;
+        int cost = GetNextProjectileCost();
         if (playerStats.SpendCoins(cost))
         {
             playerStats.UpgradeDamage();
@@ -187,6 +204,32 @@ public class StoreManager : MonoBehaviour
         {
             if (SoundManager.Instance != null) SoundManager.Instance.PlayPurchaseFail();
         }
+    }
+
+    private int GetNextProjectileCost()
+    {
+        // Find PlayerCannonController if not set
+        if (cannonController == null) cannonController = FindFirstObjectByType<PlayerCannonController>();
+
+        if (cannonController != null && cannonController.projectilePrefabs != null)
+        {
+            int nextLevelIndex = playerStats.damageLevel + 1;
+            if (nextLevelIndex < cannonController.projectilePrefabs.Length)
+            {
+                GameObject nextPrefab = cannonController.projectilePrefabs[nextLevelIndex];
+                if (nextPrefab != null)
+                {
+                    Projectile p = nextPrefab.GetComponent<Projectile>();
+                    if (p != null)
+                    {
+                        return p.upgradeCost;
+                    }
+                }
+            }
+        }
+        
+        // Fallback if something is missing
+        return biggerBallsBaseCost * playerStats.damageLevel;
     }
     
     private void BuyNewCannon()
@@ -202,6 +245,32 @@ public class StoreManager : MonoBehaviour
         else
         {
             if (SoundManager.Instance != null) SoundManager.Instance.PlayPurchaseFail();
+        }
+    }
+
+    private void UpdateBiggerBallsIcon(int levelIndex)
+    {
+        if (buyBiggerBallsButton == null) return;
+        
+        // Find PlayerCannonController if not set
+        if (cannonController == null) cannonController = FindFirstObjectByType<PlayerCannonController>();
+        
+        if (cannonController != null && cannonController.projectilePrefabs != null && levelIndex < cannonController.projectilePrefabs.Length)
+        {
+            GameObject prefab = cannonController.projectilePrefabs[levelIndex];
+            if (prefab != null)
+            {
+                SpriteRenderer sr = prefab.GetComponent<SpriteRenderer>();
+                if (sr != null)
+                {
+                    Image icon = buyBiggerBallsButton.transform.Find("Icon")?.GetComponent<Image>();
+                    if (icon != null)
+                    {
+                        icon.sprite = sr.sprite;
+                        icon.color = sr.color; // Apply tint if any
+                    }
+                }
+            }
         }
     }
 }
